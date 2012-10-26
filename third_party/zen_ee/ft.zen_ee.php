@@ -1,13 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Zen EE Module Fieldtype
+ *
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
+ * @author Sebastian Brocher <seb@noctual.com>
+ * @author Judd Lyon <judd@trifectainteractive.com>
+ * @link		http://juddlyon.github.com/zen-ee
+ */
+
 // include config
 require(PATH_THIRD .'zen_ee/config.php');
 
-/**
-* ZEN EE FIELDTYPE
-*
-* allows user to select successfully encoded videos via dropdown menu
-*/
 class Zen_ee_ft extends EE_Fieldtype {
 
 	/**
@@ -32,6 +38,8 @@ class Zen_ee_ft extends EE_Fieldtype {
 		$this->table = $this->EE->db->dbprefix . "zen_ee_jobs";
 	}
 
+	// ----------------------------------------------------------------
+
 	/**
 	* INSTALL
 	*/
@@ -39,6 +47,8 @@ class Zen_ee_ft extends EE_Fieldtype {
 	{
 		return array();
 	}
+
+	// ----------------------------------------------------------------
 
 	/**
 	* DISPLAY FIELDS
@@ -49,7 +59,7 @@ class Zen_ee_ft extends EE_Fieldtype {
 		$this->EE->load->helper('form');
 
 		// get fields from DB
-		// note: use double-quotes on SQL to enable var expansion
+		// note: use double-quotes in SQL to enable var expansion
 		$sql_get_fields = "
 			SELECT video_name, zencoder_job_id
 			FROM $this->table
@@ -75,6 +85,8 @@ class Zen_ee_ft extends EE_Fieldtype {
 		return form_dropdown($field_name, $options, $data);
 	} // end display_field
 
+	// ----------------------------------------------------------------
+
 	/**
 	* REPLACE TAG
 	*
@@ -83,7 +95,11 @@ class Zen_ee_ft extends EE_Fieldtype {
 	public function replace_tag($data, $params = array(), $tagdata = TRUE)
 	{
 
-		$video_query = $this->EE->db->query("SELECT * FROM $this->table WHERE zencoder_job_id = $data");
+		$video_query = $this->EE->db->query("
+			SELECT *
+			FROM $this->table
+			WHERE zencoder_job_id = $data
+		");
 
 		$vars = array();
 
@@ -100,7 +116,7 @@ class Zen_ee_ft extends EE_Fieldtype {
 				$vars["height"] = $row['height'];
 			}
 
-      		$label = $row['label'];
+      $label = $row['label'];
 			$vars[$label . "_url"] = $row['output_video_url'];
 			$vars[$label . "_status"] = $row['status'];
 			$vars[$label . "_zencoder_job_output_id"] = $row['zencoder_job_output_id'];
@@ -111,11 +127,10 @@ class Zen_ee_ft extends EE_Fieldtype {
 		$tmp = $this->EE->functions->prep_conditionals($tagdata, $vars);
 		$chunk = $this->EE->functions->var_swap($tmp, $vars);
 
-		// encode_ee_tags breaks ability to run plugins w/in tag pair
-		// $chunk = $this->EE->functions->encode_ee_tags($chunk);
-
 		return $chunk;
 	} // end replace_tag
+
+	// ----------------------------------------------------------------
 
 	/**
 	* MATRIX SUPPORT
@@ -125,6 +140,8 @@ class Zen_ee_ft extends EE_Fieldtype {
 		return $this->display_field($cell_data, TRUE);
 	}
 
+	// ----------------------------------------------------------------
+
 	/**
 	* LOW VARIABLES SUPPORT
 	*/
@@ -133,6 +150,6 @@ class Zen_ee_ft extends EE_Fieldtype {
 		return $this->display_field($var_data);
 	}
 
-} // end Zen_ee_ft class
-
-/* END ft.zen_ee.php */
+} /
+/* End of file ft.zen_ee.php */
+/* Location: /system/expressionengine/third_party/zen_ee/ft.zen_ee.php */

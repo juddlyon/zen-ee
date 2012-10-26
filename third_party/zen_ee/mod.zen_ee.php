@@ -1,22 +1,18 @@
 <?php if (! defined('BASEPATH')) exit('No direct script access allowed');
 
-// include Zencoder PHP lib & config
-require_once('zencoder-php/Services/Zencoder.php');
-
 /**
- * ZEN EE
+ * Zen EE Module
  *
- * encode videos via the Zencoder API within EE, insert
- * via Fieldtype
- *
- * @package zen_ee
- * @version 1.0
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
  * @author Sebastian Brocher <seb@noctual.com>
  * @author Judd Lyon <judd@trifectainteractive.com>
- * @link http://zen.trifectainteractive.com/docs
- * @see http://zencoder.com
- * @copyright Trifecta Interactive 2012
+ * @link		http://juddlyon.github.com/zen-ee
  */
+
+// include Zencoder PHP lib & config
+require_once('vendor/zencoder-php/Services/Zencoder.php');
 
 class Zen_ee {
 
@@ -27,6 +23,8 @@ class Zen_ee {
 	{
 		$this->EE =& get_instance();
 	}
+
+	// ----------------------------------------------------------------
 
 	/**
 	*	UPDATE JOB STATUS
@@ -42,10 +40,10 @@ class Zen_ee {
 		$api_key = $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api');
 
 		// init new Zencoder object
-	  	$zencoder = new Services_Zencoder($api_key);
+	  $zencoder = new Services_Zencoder($api_key);
 
-	  	// catch notification
-	  	$notification = $zencoder->notifications->parseIncoming();
+	  // catch notification
+	  $notification = $zencoder->notifications->parseIncoming();
 
 		// handle notifications
 		switch ($notification->output->state) {
@@ -70,13 +68,15 @@ class Zen_ee {
 	  } // end switch
 	} // end  update_job_status
 
+	// ----------------------------------------------------------------
+
 	/**
 	* PATH TO URL
 	*
 	* converts path to URL for output in template
 	*
 	* @param $path
-	* @return URL
+	* @return string URL
 	*/
 	public function path_to_url($path)
 	{
@@ -99,9 +99,13 @@ class Zen_ee {
 		$zencoder_job_output_id = preg_replace('/[^0-9]/', '', $zencoder_job_output_id);
 
 		$data = array('status' => $this->EE->db->escape_str($status));
+
 		$sql = $this->EE->db->update_string($this->EE->db->dbprefix . 'zen_ee_jobs', $data, "zencoder_job_output_id = '" . $zencoder_job_output_id . "'");
+
 		$this->EE->db->query($sql);
 	}
+
+	// ----------------------------------------------------------------
 
 	/**
 	* UPDATE JOB WITH
@@ -126,6 +130,6 @@ class Zen_ee {
 		$this->EE->db->query($sql);
 	}
 
-} // end Zen_ee class
-
-/* EOF mod.zen_ee.php */
+}
+/* End of file mod.zen_ee.php */
+/* Location: /system/expressionengine/third_party/zen_ee/mod.zen_ee.php */

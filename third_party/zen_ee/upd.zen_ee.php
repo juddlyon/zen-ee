@@ -1,8 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Zen EE Module Install/Update File
+ *
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
+ * @author Sebastian Brocher <seb@noctual.com>
+ * @author Judd Lyon <judd@trifectainteractive.com>
+ * @link		http://juddlyon.github.com/zen-ee
+ */
+
 // include configuration
 require(PATH_THIRD .'zen_ee/config.php');
-
 
 /**
 * ZEN EE UPD
@@ -13,6 +23,8 @@ class Zen_ee_upd {
 
 	public $version = ZEN_EE_VERSION;
 
+	private $EE;
+
 	/**
 	* CONSTRUCTOR
 	*
@@ -21,18 +33,19 @@ class Zen_ee_upd {
   function __construct()
   {
    	$this->EE =& get_instance();
+		$this->EE->load->dbforge();
   }
+
+	// ----------------------------------------------------------------
 
   /**
   * INSTALL
   *
   * add record to exp_modules, create zen_ee tables
-  * @return TRUE
+  * @return boolean TRUE
   */
 	function install()
 	{
-		// load CI DB Forge utility
-		$this->EE->load->dbforge();
 
 		// add module info to exp_modules
 		$data = array(
@@ -66,9 +79,15 @@ class Zen_ee_upd {
 		);
 
 		$this->EE->dbforge->add_field($fields);
+
 		$this->EE->dbforge->add_key('id', TRUE);
+
 		$this->EE->dbforge->create_table('zen_ee_settings');
-		$this->EE->db->query('CREATE UNIQUE INDEX zen_ee_settings_unique_value ON ' . $this->EE->db->dbprefix . 'zen_ee_settings(name);');
+
+		$this->EE->db->query('
+			CREATE UNIQUE INDEX zen_ee_settings_unique_value
+			ON ' . $this->EE->db->dbprefix . 'zen_ee_settings(name);'
+		);
 
 		// create zen_ee_jobs table
 		$fields = array(
@@ -112,41 +131,44 @@ class Zen_ee_upd {
 				'type' => 'varchar',
 				'constraint' => '255',
 				'null' => FALSE
-			),			
+			),
 			'height' => array(
 				'type' => 'int',
 				'constraint' => '10',
 				'unsigned' => TRUE,
-				'null' => FALSE				
+				'null' => FALSE
 			),
 			'width' => array(
 				'type' => 'int',
 				'constraint' => '10',
 				'unsigned' => TRUE,
-				'null' => FALSE								
-			),						
+				'null' => FALSE
+			),
 			'status' => array(
 				'type' => 'varchar',
 				'constraint' => '50',
 				'null' => FALSE
 			)
 		);
+
 		$this->EE->dbforge->add_field($fields);
+
 		$this->EE->dbforge->add_key('id', TRUE);
+
 		$this->EE->dbforge->create_table('zen_ee_jobs');
 
-
-		// ADD ACTION ID
+		// add action id
 		$data = array(
 		  'class' => ZEN_EE_CLASS_NAME,
 		  'method' => 'update_job_status'
 		);
-		$this->EE->db->insert('actions', $data);
 
+		$this->EE->db->insert('actions', $data);
 
 		return TRUE;
 	} // end install
 
+	// ----------------------------------------------------------------
 
 	/**
 	* UPDATE
@@ -170,23 +192,25 @@ class Zen_ee_upd {
 	  return TRUE;
 	} // end update
 
+	// ----------------------------------------------------------------
 
 	/**
 	* UNINSTALL
 	*
 	* deletes record(s) from exp_modules, exp_actions, & exp_zen_ee
 	*
-	* @return TRUE
+	* @return boolean TRUE
 	*/
 	function uninstall()
 	{
-		$this->EE->load->dbforge();
 
 	  $this->EE->db->select('module_id');
+
 	  $query = $this->EE->db->get_where('modules', array('module_name' => ZEN_EE_CLASS_NAME));
 
 	  // delete from exp_modules
 	  $this->EE->db->where('module_name', ZEN_EE_CLASS_NAME);
+
 	  $this->EE->db->delete('modules');
 
 		// drop zen_ee_settings
@@ -197,11 +221,12 @@ class Zen_ee_upd {
 
 		// delete update_job_status action
 	  $this->EE->db->where('class', ZEN_EE_CLASS_NAME);
+
 	  $this->EE->db->delete('actions');
 
 		return TRUE;
 	} // end uninstall
 
-} // end Zen_ee_upd class
-
-/*EOF upd.zen_ee.php */
+}
+/* End of file upd.zen_ee.php */
+/* Location: /system/expressionengine/third_party/zen_ee/upd.zen_ee.php */

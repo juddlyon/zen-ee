@@ -11,21 +11,13 @@ table.zen_ee_table td {
   text-align: left;
 }
 
-table.zen_ee_table {
-  border-spacing: 0;
-}
+table.zen_ee_table {border-spacing: 0;}
 
-.w30 {
-	width: 30%;
-}
+.w30 {width: 30%;}
 
-.w40 {
-	width: 40%;
-}
+.w40 {width: 40%;}
 
-.w50 {
-  width: 50%;
-}
+.w50 {width: 50%;}
 
 
 /* MODALS */
@@ -46,13 +38,9 @@ table.zen_ee_table {
   display: block;
 }
 
-.modal .submit {
-  margin-top: 10px;
-}
+.modal .submit {margin-top: 10px;}
 
-input.zen_med {
-  width: 66%;
-}
+input.zen_med {width: 66%;}
 
 /* JOBS TABLE */
 
@@ -67,13 +55,9 @@ input.zen_med {
   border-radius: 3px;
 }
 
-.mp4 {
-  background: #3A87AD;
-}
+.mp4 {background: #3A87AD;}
 
-.webm {
-  background: #999;
-}
+.webm {background: #999;}
 
 .status i {
   display: inline-block;
@@ -82,24 +66,17 @@ input.zen_med {
   height: 14px;
   line-height: 14px;
   vertical-align: text-top;
-  background-repeat: no-repeat;
-  background-image: url('/themes/third_party/zen_ee/img/icon-sprite.png');
-  background-position: 0 -120px;
+  background: url('/themes/third_party/zen_ee/img/icon-sprite.png') 0 -120px no-repeat;
 }
 
-.finished i {
-  background-position: -72px -96px;
-}
+.finished i {background-position: -72px -96px;}
 
-.created i {
-  background-position: 0 -96px;
-}
+.created i {background-position: 0 -96px;}
 
 .zen_thumb {
   padding: 5px;
   border: 1px solid #ccc;
 }
-
 
 /* JOBS PAGE DETAILS MODAL */
 
@@ -108,23 +85,15 @@ input.zen_med {
   padding: 3px;
 }
 
-.details th {
-  text-align: left;
-}
+.details th {text-align: left;}
 
-.details table {
-  margin: 15px auto;
-}
+.details table {margin: 15px auto;}
 
 /* PAGINATION */
 
-.pagination {
-  overflow: hidden;
-}
+.pagination {overflow: hidden;}
 
-.pagination .previous_link {
-  border-left: 1px solid #ddd;
-}
+.pagination .previous_link {border-left: 1px solid #ddd;}
 
 .pagination a {
   border: 1px solid #ddd;
@@ -141,6 +110,4 @@ input.zen_med {
 
 /* MISC */
 
-.alt_vid_in {
-  margin-top: 20px;
-}
+.alt_vid_in {margin-top: 20px;}

@@ -1,9 +1,16 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
-* LANGUAGE VARIABLES
-*
-* @package zen_ee
-*/
+ * Zen EE Language Variables
+ *
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
+ * @author Sebastian Brocher <seb@noctual.com>
+ * @author Judd Lyon <judd@trifectainteractive.com>
+ * @link		http://juddlyon.github.com/zen-ee
+ */
+
 $lang = array(
 	'zen_ee_module_name' => 'Zen EE',
 	'zen_ee_module_description'  => 'Encode videos using Zencoder\'s API',
@@ -43,4 +50,6 @@ $lang = array(
 	'details_label' => 'Details',
 	'docs' => 'Docs'
 );
-/* EOF zen_ee_lang.php */
+
+/* End of file lang.zen_ee.php */
+/* Location: /system/expressionengine/third_party/zen_ee/language/english/lang.zen_ee.php */

@@ -1,12 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
-* ZEN EE SETTINGS
-*
-* helper functions to add, get, and check for module settings
-*/
-class Zen_settings {
+ * Zen EE Module Settings Helper
+ *
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
+ * @author Sebastian Brocher <seb@noctual.com>
+ * @author Judd Lyon <judd@trifectainteractive.com>
+ * @link		http://juddlyon.github.com/zen-ee
+ */
 
+class Zen_settings {
 
 	/**
 	 * Constructor
@@ -18,6 +23,8 @@ class Zen_settings {
 		$this->EE =& get_instance();
 	}
 
+	// ----------------------------------------------------------------
+
 	/**
 	* ADD SETTING
 	*
@@ -27,8 +34,11 @@ class Zen_settings {
 	*/
 	public function add_setting($db_handle, $setting_name, $setting_value)
 	{
-		$db_handle->query("INSERT INTO " . $db_handle->dbprefix . "zen_ee_settings(name, value) VALUES('$setting_name','$setting_value')
-		 	ON DUPLICATE KEY UPDATE value='$setting_value';");
+		$db_handle->query("
+			INSERT INTO " . $db_handle->dbprefix . "zen_ee_settings(name, value)
+			VALUES('$setting_name','$setting_value')
+		 	ON DUPLICATE KEY UPDATE value='$setting_value';
+		");
 
 		if ($db_handle->_error_number() == 0)
 		{
@@ -38,6 +48,7 @@ class Zen_settings {
 		return FALSE;
 	}
 
+	// ----------------------------------------------------------------
 
 	/**
 	* GET SETTING
@@ -58,6 +69,7 @@ class Zen_settings {
 		return $setting_value;
 	}
 
+	// ----------------------------------------------------------------
 
 	/**
 	* HAS ALL SETTINGS
@@ -87,6 +99,6 @@ class Zen_settings {
 		return TRUE;
 	}
 
-
 }
-/* EOF settings.php */
+/* End of file zen_settings.php */
+/* Location: /system/expressionengine/third_party/zen_ee/libraries/zen_settings.php */

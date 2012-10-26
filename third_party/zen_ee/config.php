@@ -1,15 +1,16 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
- * ZEN EE CONFIG FILE
+ * Zen EE Module Config
  *
- * @package zen_ee
- * @version 1.0
- * @author Sebastian Brocher <seb@trifectainteractive.com>
+ * @package		ExpressionEngine
+ * @subpackage	Addons
+ * @category	Module
+ * @author Sebastian Brocher <seb@noctual.com>
  * @author Judd Lyon <judd@trifectainteractive.com>
- * @link http://trifectainteractive.com/zen-ee
- * @see http://zencoder.com
- * @copyright Trifecta Interactive 2012
+ * @link		http://juddlyon.github.com/zen-ee
  */
+
 if (! defined('ZEN_EE_NAME'))
 {
 	define('ZEN_EE_NAME', 'Zen EE');
@@ -19,3 +20,6 @@ if (! defined('ZEN_EE_NAME'))
 
 $config['name'] = ZEN_EE_NAME;
 $config['version'] = ZEN_EE_VERSION;
+
+/* End of file config.php */
+/* Location: /system/expressionengine/third_party/zen_ee/config.php */
