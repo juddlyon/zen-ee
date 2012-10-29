@@ -150,6 +150,6 @@ class Zen_ee_ft extends EE_Fieldtype {
 		return $this->display_field($var_data);
 	}
 
-} /
+}
 /* End of file ft.zen_ee.php */
 /* Location: /system/expressionengine/third_party/zen_ee/ft.zen_ee.php */
