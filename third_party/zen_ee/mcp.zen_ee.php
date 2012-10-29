@@ -465,17 +465,8 @@ class Zen_ee_mcp {
 				$api_key = $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api');
 				$output_path = $this->EE->zen_settings->get_setting($this->EE->db, 'output_videos_path');
 				$enable_test_mode = $this->EE->zen_settings->get_setting($this->EE->db, 'enable_test_mode');
-				$encode_args = array(
-					$input_url,
-					$output_path,
-					$api_key,
-					$video_name,
-					$width,
-					$height,
-					$thumb_time,
-					$enable_test_mode
-				);
-				$zencoder_jobs = $this->create_zencoder_encode_job($encode_args);
+
+				$zencoder_jobs = $this->create_zencoder_encode_job($input_url, $output_path, $api_key, $video_name, $width, $height, $thumb_time, $enable_test_mode);
 
 				if ($zencoder_jobs == NULL)
 				{
@@ -492,16 +483,7 @@ class Zen_ee_mcp {
 					// store all output jobs in DB
 					foreach ($jobs as $label => $job_output_id)
 					{
-						$jobs_args = array(
-							$video_name,
-							$job_id,
-							$job_output_id,
-							$label,
-							$input_url,
-							$width,
-							$height
-						);
-						$valid = $valid && $this->add_jobs();
+						$valid = $valid && $this->add_jobs($video_name, $job_id, $job_output_id, $label, $input_url, $width, $height);
 					}
 				} // end exception
 
@@ -519,6 +501,10 @@ class Zen_ee_mcp {
 		}
 		catch (Services_Zencoder_Exception $e)
 		{
+			echo '<pre>';
+			var_dump($e);
+			echo '</pre>';
+
 			$this->EE->session->set_flashdata('message_failure', $e->getMessage());
 		} // end exception
 
