@@ -567,15 +567,15 @@ class Zen_ee_mcp {
 
 		// new encoding job
 		$encoding_props = array(
-			"test" => "$enable_test_mode == 'On' || $enable_test_mode == '' ? 'true' : 'false'",
-			"input" => "' . $intput_url .'",
+			"test" => $enable_test_mode == "On" || $enable_test_mode == "" ? true : false,
+			"input" => $intput_url,
 			"output" => array(
 				/* OUTPUT 1 */
 				array(
 					"public" => 1,
-					"filename" => "' . $filename . '.mp4",
+					"filename" => $filename . ".mp4",
 					"device_profile" => "mobile/baseline",
-					"base_url" => "' . $output_path . '",
+					"base_url" => $output_path,
 					"format" => "mp4",
 					"label" => "mp4",
 					"video_codec" => "h264",
@@ -584,14 +584,14 @@ class Zen_ee_mcp {
 						"number" => 1,
 						"format" => "jpg",
 						"aspect_mode" => "crop",
-					  	"size" => "' . $video_dimension . '",
-					 	"base_url" => "' . $output_path . '",
-						"filename" => "tn_' . $filename . '",
-						"times" => array(' . $thumb_time . ')
+					  	"size" => $video_dimension,
+					 	"base_url" => $output_path,
+						"filename" => "tn_" . $filename,
+						"times" => array($thumb_time)
 					), // thumbnails
 				"notifications" => array(
 					array(
-			 			"url" => "' . $update_job_status_url . '",
+			 			"url" => $update_job_status_url,
 			  			"format" => "json"
 					) //notifications 2
 				), // notifications 1
@@ -599,9 +599,9 @@ class Zen_ee_mcp {
 				/* OUTPUT 2 */
 				array(
 					"public" => 1,
-					"filename" => "' . $filename . '.webm",
+					"filename" => $filename . ".webm",
 				 	"device_profile" => "mobile/baseline",
-				 	"base_url" => "' . $output_path . '",
+				 	"base_url" => $output_path,
 				 	"format" => "webm",
 				 	"label" => "webm",
 				 	"video_codec" => "vp8",
@@ -610,104 +610,45 @@ class Zen_ee_mcp {
 					  	"number" => 1,
 					  	"format" => "jpg",
 					  	"aspect_mode" => "crop",
-					  	"size" => "' . $video_dimension . '",
-						 "base_url" => "' . $output_path . '",
-						"filename" => "tn_' . $filename . '",
-						"times" => array(' . $thumb_time . ')
+					  	"size" => $video_dimension,
+						 "base_url" => $output_path,
+						"filename" => "tn_" . $filename,
+						"times" => array($thumb_time)
 					 ), // thumbnails
 					"notifications" => array(
-					 	"url" => "' . $update_job_status_url . '",
+					 	"url" => $update_job_status_url,
 					  	"format" => "json"
 					) // notifications
 				 ) // output 2
 			) // output array
 		); // encoding specs
 
-		 // TESTING STRING
-		 //  $encoding_str = '
-			// {
-			// 	"test": ' . ($enable_test_mode == 'On' || $enable_test_mode == '' ? 'true' : 'false') . ',
-			// 	"input": "' . $intput_url .'",
-			//  	"output": [
-			// 	{
-			// 		"public": 1,
-			// 		"filename": "' . $filename . '.mp4",
-			// 		"device_profile": "mobile/baseline",
-			// 		"base_url": "' . $output_path . '",
-			// 		"format": "mp4",
-			// 		"label": "mp4",
-			// 		"video_codec": "h264",
-			// 		"audio_codec": "aac",
-			// 		"thumbnails": {
-			// 			"number": 1,
-			// 			"format": "jpg",
-			// 			"aspect_mode": "crop",
-			// 		    	"size": "' . $video_dimension . '",
-			// 		  	"base_url": "' . $output_path . '",
-			// 			"filename": "tn_' . $filename . '",
-			// 			"times": [' . $thumb_time . ']
-			// 	  },
-			// 	  "notifications": [
-			// 	    {
-			// 	      "url": "' . $update_job_status_url . '",
-			// 	      "format": "json"
-			// 	    }
-			// 	  ] // notifications
-			// 	},
-			// 	{
-			// 		"public": 1,
-			// 		"filename": "' . $filename . '.webm",
-			// 	  	"device_profile": "mobile/baseline",
-			// 	  	"base_url": "' . $output_path . '",
-			// 	  	"format": "webm",
-			// 	  	"label": "webm",
-			// 	  	"video_codec": "vp8",
-			// 	  	"audio_codec": "vorbis",
-			// 	  	"thumbnails": {
-			// 	    		"number": 1,
-			// 	    		"format": "jpg",
-			// 	    		"aspect_mode": "crop",
-			// 	    		"size": "' . $video_dimension . '",
-			// 		  	"base_url": "' . $output_path . '",
-			// 			"filename": "tn_' . $filename . '",
-			// 			"times": [' . $thumb_time . ']
-			// 	  },
-			// 	  "notifications": [
-			// 	    {
-			// 	      "url": "' . $update_job_status_url . '",
-			// 	      "format": "json"
-			// 	    }
-			// 	  ] // notifications
-			// 	}
-			// 	] // output
-			// }';
+		// convert to json
+		$encoding_props_json = json_encode($encoding_props);
 
-			// convert to json
-			$encoding_props_json = json_encode($encoding_props);
+		$encoding_job = $zencoder->jobs->create($encoding_props_json);
 
-			$encoding_job = $zencoder->jobs->create($encoding_props_json);
+		// return array w/ first element zencoder job id, second  array with (label => job_id) for each output if successful, otherwise NULL
+		if ($encoding_job)
+		{
+			return array(
+				$encoding_job->id,
+				array(
+					'mp4' => $encoding_job->outputs['mp4']->id,
+					'webm' => $encoding_job->outputs['webm']->id
+				)
+			);
+		}
 
-			// return array w/ first element zencoder job id, second  array with (label => job_id) for each output if successful, otherwise NULL
-			if ($encoding_job)
-			{
-				return array(
-					$encoding_job->id,
-					array(
-						'mp4' => $encoding_job->outputs['mp4']->id,
-						'webm' => $encoding_job->outputs['webm']->id
-					)
-				);
-			}
+		// use this for logging perhaps?
+	 	// foreach ($encoding_job->errors as $error)
+	 	// {
+	  // 	echo $error."\n";
+	  // }
 
-		 	foreach ($encoding_job->errors as $error)
-		 	{
-		 		// rbanh note: should you just throw an exception here? since you're catching it on the create_encoding_job function anyway.
-		  	echo $error."\n";
-		  }
+		exit;
 
-			exit;
-
-			return NULL;
+		return NULL;
 	} // end
 
 	// ----------------------------------------------------------------
