@@ -3,12 +3,12 @@
 /**
  * Zen EE Module Settings Helper
  *
- * @package		ExpressionEngine
- * @subpackage	Addons
- * @category	Module
+ * @package ExpressionEngine
+ * @subpackage Addons
+ * @category Module
  * @author Sebastian Brocher <seb@noctual.com>
  * @author Judd Lyon <judd@trifectainteractive.com>
- * @link		http://juddlyon.github.com/zen-ee
+ * @link http://juddlyon.github.com/zen-ee
  */
 
 class Zen_settings {
