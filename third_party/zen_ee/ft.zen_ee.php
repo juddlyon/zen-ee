@@ -94,12 +94,9 @@ class Zen_ee_ft extends EE_Fieldtype {
 	*/
 	public function replace_tag($data, $params = array(), $tagdata = TRUE)
 	{
+		$vid_sql = "SELECT * FROM $this->table WHERE zencoder_job_id = '$data'";
 
-		$video_query = $this->EE->db->query("
-			SELECT *
-			FROM $this->table
-			WHERE zencoder_job_id = $data
-		");
+		$video_query = $this->EE->db->query($vid_sql);
 
 		$vars = array();
 
