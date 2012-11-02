@@ -97,7 +97,7 @@ class Zen_ee_mcp {
 		{
 			foreach ($results->result_array() as $row)
 		  	{
-					$jobs[] = $row;
+				$jobs[] = $row;
 		  	}
 		}
 
@@ -350,6 +350,7 @@ class Zen_ee_mcp {
 
 	/**
 	* PROCESS SETTINGS FORM POST
+	* @todo  xss_clean before inserting
 	*/
 	public function update_settings()
 	{

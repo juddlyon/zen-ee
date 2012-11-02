@@ -33,7 +33,7 @@ class Zen_ee_upd {
   function __construct()
   {
    	$this->EE =& get_instance();
-		$this->EE->load->dbforge();
+	$this->EE->load->dbforge();
   }
 
 	// ----------------------------------------------------------------
@@ -65,17 +65,17 @@ class Zen_ee_upd {
 				'unsigned' => TRUE,
 				'auto_increment' => TRUE
 			),
-		  'name' => array(
-		  	'type' => 'varchar',
-		  	'constraint' => '255',
-		  	'null' => FALSE
-		  ),
-		  'value' => array(
-		  	'type' => 'varchar',
-		  	'constraint' => '255',
-		  	'null' => FALSE,
-		  	'default' => ''
-		  )
+			'name' => array(
+				'type' => 'varchar',
+				'constraint' => '255',
+				'null' => FALSE
+			),
+			'value' => array(
+				'type' => 'varchar',
+				'constraint' => '255',
+				'null' => FALSE,
+				'default' => ''
+			)
 		);
 
 		$this->EE->dbforge->add_field($fields);
