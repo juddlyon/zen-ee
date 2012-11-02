@@ -401,22 +401,22 @@ class Zen_ee_mcp {
 				array(
 					'field' => 'video_name',
 					'label' => $this->EE->lang->line('video_name_label'),
-					'rules' => 'required'
+					'rules' => 'trim|required|xss_clean'
 				),
 				array(
 					'field' => 'width',
 					'label' => $this->EE->lang->line('width_label'),
-					'rules' => 'required'
+					'rules' => 'trim|required|xss_clean'
 				),
 				array(
 					'field' => 'height',
 					'label' => $this->EE->lang->line('height_label'),
-					'rules' => 'required'
+					'rules' => 'trim|required|xss_clean'
 				),
 				array(
 					'field' => 'thumb_time',
 					'label' => $this->EE->lang->line('thumb_time_label'),
-					'rules' => 'required'
+					'rules' => 'trim|required|xss_clean'
 				)
 			);
 
@@ -449,13 +449,6 @@ class Zen_ee_mcp {
 				// hidden field w/ actual URL
 				$input_url = $this->EE->input->get_post('hidden_' . $submit_name);
 			}
-
-			// scrub vars (thanks @rbanh)
-      $video_name = $this->EE->security->xss_clean($video_name);
-      $width = $this->EE->security->xss_clean($width);
-      $height = $this->EE->security->xss_clean($height);
-      $thumb_time = $this->EE->security->xss_clean($thumb_time);
-      $input_url = $this->EE->security->xss_clean($input_url);
 
 			$valid = TRUE;
 
