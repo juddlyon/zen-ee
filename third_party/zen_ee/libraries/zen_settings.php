@@ -34,6 +34,8 @@ class Zen_settings {
 	*/
 	public function add_setting($db_handle, $setting_name, $setting_value)
 	{
+		$setting_value = $this->EE->security->xss_clean($setting_value);
+
 		$db_handle->query("
 			INSERT INTO " . $db_handle->dbprefix . "zen_ee_settings(name, value)
 			VALUES('$setting_name','$setting_value')
