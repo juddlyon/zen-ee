@@ -12,7 +12,7 @@
  */
 
 // include configuration
-require(PATH_THIRD .'zen_ee/config.php');
+require(PATH_THIRD . 'zen_ee/config.php');
 
 /**
 * ZEN EE UPD
@@ -30,23 +30,22 @@ class Zen_ee_upd {
 	*
 	* init EE
 	*/
-  function __construct()
-  {
-   	$this->EE =& get_instance();
-	$this->EE->load->dbforge();
-  }
+	  function __construct()
+	  {
+	   	$this->EE =& get_instance();
+		$this->EE->load->dbforge();
+	  }
 
 	// ----------------------------------------------------------------
 
-  /**
-  * INSTALL
-  *
-  * add record to exp_modules, create zen_ee tables
-  * @return boolean TRUE
-  */
+	/**
+	* INSTALL
+	*
+	* add record to exp_modules, create zen_ee tables
+	* @return boolean TRUE
+	*/
 	function install()
 	{
-
 		// add module info to exp_modules
 		$data = array(
 		    'module_name' => ZEN_EE_CLASS_NAME,
@@ -171,30 +170,6 @@ class Zen_ee_upd {
 	// ----------------------------------------------------------------
 
 	/**
-	* UPDATE
-	*
-	* compares filesystem version to DB version
-	*
-	* @return boolean
-	*/
-	function update($current = '')
-	{
-		if (version_compare($current, '1.0', '='))
-	    {
-	    	return FALSE;
-	    }
-
-	    if (version_compare($current, '1.0', '<'))
-	    {
-	    	// RUN UPDATE
-	    }
-
-	  return TRUE;
-	} // end update
-
-	// ----------------------------------------------------------------
-
-	/**
 	* UNINSTALL
 	*
 	* deletes record(s) from exp_modules, exp_actions, & exp_zen_ee
@@ -203,26 +178,27 @@ class Zen_ee_upd {
 	*/
 	function uninstall()
 	{
+		$this->EE->db->select('module_id');
 
-	  $this->EE->db->select('module_id');
+		$query = $this->EE->db->get_where('modules', array('module_name' => ZEN_EE_CLASS_NAME));
 
-	  $query = $this->EE->db->get_where('modules', array('module_name' => ZEN_EE_CLASS_NAME));
-
-	  // delete from exp_modules
-	  $this->EE->db->where('module_name', ZEN_EE_CLASS_NAME);
-
-	  $this->EE->db->delete('modules');
+		// delete from exp_modules
+		$this->EE->db
+			->where('module_name', ZEN_EE_CLASS_NAME)
+			->delete('modules');
 
 		// drop zen_ee_settings
-		$this->EE->dbforge->drop_table('zen_ee_settings');
-
-		// drop zen_ee_jobs
-		$this->EE->dbforge->drop_table('zen_ee_jobs');
+		$this->EE->dbforge->drop_table(
+			array(
+				'zen_ee_settings',
+				'zen_ee_jobs'
+			)
+		);
 
 		// delete update_job_status action
-	  $this->EE->db->where('class', ZEN_EE_CLASS_NAME);
-
-	  $this->EE->db->delete('actions');
+		$this->EE->db
+			->where('class', ZEN_EE_CLASS_NAME);
+			->delete('actions');
 
 		return TRUE;
 	} // end uninstall

@@ -12,15 +12,14 @@
  */
 
 // include Zencoder PHP lib
-require_once('vendor/zencoder-php/Services/Zencoder.php');
+require_once('libraries/zencoder-php/Services/Zencoder.php');
 
 class Zen_ee_mcp {
 
 	private $base_url;
 
-  function __construct()
-  {
-		// EE super object
+	function __construct()
+	{
 		$this->EE =& get_instance();
 
 		// define base url for module
@@ -28,9 +27,9 @@ class Zen_ee_mcp {
 
 		// right navigation buttons
 		$right_nav = array(
-	    	$this->EE->lang->line('videos') => $this->base_url . AMP .'method=videos',
-				$this->EE->lang->line('jobs') => $this->base_url . AMP .'method=jobs',
-	    	$this->EE->lang->line('settings') => $this->base_url . AMP . 'method=settings'
+		    	$this->EE->lang->line('videos') => $this->base_url . AMP .'method=videos',
+			$this->EE->lang->line('jobs') => $this->base_url . AMP .'method=jobs',
+		    	$this->EE->lang->line('settings') => $this->base_url . AMP . 'method=settings'
 		);
 
 		$this->EE->cp->set_right_nav($right_nav);
@@ -47,33 +46,28 @@ class Zen_ee_mcp {
 
 		$this->EE->load->library($load_libs);
 
-		 // CSS
-		$this->EE->cp->add_to_head('<link rel="stylesheet" href="' . URL_THIRD_THEMES . 'zen_ee/css/zen_ee.css">');
-
-		// JS
-		$this->EE->cp->add_to_foot('
-			<script type="text/javascript" src="' . URL_THIRD_THEMES . 'zen_ee/js/jquery.pajinate.js"></script>
-			<script type="text/javascript" src="' . URL_THIRD_THEMES . 'zen_ee/js/zen_ee.js"></script>'
-		);
-  } // end constructor
+		$this->EE->cp->load_package_css('zen_ee');
+		$this->EE->cp->load_package_js('jquery.pajinate');
+		$this->EE->cp->load_package_js('zen_ee');
+	} // end constructor
 
 	// ----------------------------------------------------------------
 
-  /*
-  * INDEX
-  *
-  * landing page upon install
-  */
+	/*
+	* INDEX
+	*
+	* landing page upon install
+	*/
 	public function index()
 	{
-		$this->EE->functions->redirect($this->base_url . AMP .'method=videos');
+		$this->EE->functions->redirect($this->base_url . AMP . 'method=videos');
 	}
 
 	// ----------------------------------------------------------------
 
-  /*
-  * JOBS
-  */
+	/*
+	* JOBS
+	*/
 	public function jobs()
 	{
 		// page title
@@ -85,13 +79,17 @@ class Zen_ee_mcp {
 		// retrieve jobs list
 		$jobs = array();
 
-		$sql_get_jobs = '
-			SELECT *
-			FROM ' . $this->EE->db->dbprefix . 'zen_ee_jobs
-			ORDER BY id DESC
-		';
+		// $sql_get_jobs = '
+		// 	SELECT *
+		// 	FROM ' . $this->EE->db->dbprefix . 'zen_ee_jobs
+		// 	ORDER BY id DESC
+		// ';
 
-		$results = $this->EE->db->query($sql_get_jobs);
+		$results = $this->EE->db
+			->select('zen_ee_jobs')
+			->order_by('id', 'DESC');
+
+		// $results = $this->EE->db->query($sql_get_jobs);
 
 		if ($results->num_rows() > 0)
 		{
@@ -121,9 +119,9 @@ class Zen_ee_mcp {
 
 	// ----------------------------------------------------------------
 
-  /*
-  * VIDEOS
-  */
+	/*
+	* VIDEOS
+	*/
 	public function videos()
 	{
 		// redirect to settings page if missing settings
@@ -153,12 +151,14 @@ class Zen_ee_mcp {
 		{
 			while (false !== ($entry = readdir($handle)))
 			{
-				$filepath = $input_videos_dir.$entry;
+				$filepath = $input_videos_dir . $entry;
+
 				$url = $input_videos_url . $entry;
+
 				if ($entry != "." && $entry != ".." && !is_dir($filepath))
 				{
-        	$files[] = array(
-          	'modal_class' => 'modal-'. $hidden_field_ref_number,
+		        		$files[] = array(
+			          		'modal_class' => 'modal-'. $hidden_field_ref_number,
 						'filename' => $entry,
 						'filepath' => $filepath,
 						'form_submit' => form_submit(
@@ -170,7 +170,7 @@ class Zen_ee_mcp {
 						),
 						'form_hidden'	=> form_hidden("hidden_" . $hidden_field_ref_number, $url)
 					);
-			  }
+				}
 				$hidden_field_ref_number += 1;
 			}
 			closedir($handle);
@@ -178,7 +178,7 @@ class Zen_ee_mcp {
 
 		// view variables
 		$vars = array(
-			'form_open' => form_open('C=addons_modules&amp;M=show_module_cp&amp;module=zen_ee' . AMP . 'method=create_encoding_job', array('class' => 'form', 'id' => 'videos')),
+			'form_open' => form_open($this->base_url . AMP . 'method=create_encoding_job', array('class' => 'form', 'id' => 'videos')),
 			'files' => $files,
 			'form_video_name_label' => form_label($this->EE->lang->line('video_name_label'), 'video_name', array()),
 			'form_video_name' => form_input(
@@ -260,7 +260,7 @@ class Zen_ee_mcp {
 		$enable_test_mode_db_value = $this->EE->zen_settings->get_setting($this->EE->db, 'enable_test_mode');
 
 		$form = array(
-			'open' => form_open('C=addons_modules&amp;M=show_module_cp&amp;module=zen_ee'. AMP .'method=update_settings', array('class' => 'form', 'id' => 'module_settings')),
+			'open' => form_open($this->base_url . AMP .'method=update_settings', array('class' => 'form', 'id' => 'module_settings')),
 			'api_key_label' => form_label($this->EE->lang->line('api_key_label'), 'zencoder_api', array()),
 			'api_key' => form_input(
 				array(
@@ -350,41 +350,36 @@ class Zen_ee_mcp {
 
 	/**
 	* PROCESS SETTINGS FORM POST
-	* @todo  xss_clean before inserting
 	*/
 	public function update_settings()
 	{
-		$api_key = $this->EE->input->get_post('zencoder_api');
+		// clean up and assign settings to vars
+		$api_key = $this->EE->input->get_post('zencoder_api', TRUE);
 		$input_videos_dir = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_dir'));
 		$input_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_url'));
 		$output_videos_path = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_path'));
 		$output_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_url'));
-		$enable_test_mode = $this->EE->input->get_post('enable_test_mode');
+		$enable_test_mode = $this->EE->input->get_post('enable_test_mode', TRUE);
 
-		$valid = TRUE;
+		$settings_to_update = array(
+			'zencoder_api' => $api_key,
+			'input_videos_dir' =>  $input_videos_dir,
+			'input_videos_url' =>  $input_videos_url,
+			'output_videos_path' =>  $output_videos_path,
+			'output_videos_url' =>  $output_videos_url,
+			'enable_test_mode' =>  $enable_test_mode
+		);
 
-		if ($valid)
+		foreach ($settings_to_update as $k => $v)
 		{
-			$valid = $this->EE->zen_settings->add_setting($this->EE->db, 'zencoder_api', $api_key);
-			$valid = $valid && $this->EE->zen_settings->add_setting($this->EE->db, 'input_videos_dir', $input_videos_dir);
-			$valid = $valid && $this->EE->zen_settings->add_setting($this->EE->db, 'input_videos_url', $input_videos_url);
-			$valid = $valid && $this->EE->zen_settings->add_setting($this->EE->db, 'output_videos_path', $output_videos_path);
-			$valid = $valid && $this->EE->zen_settings->add_setting($this->EE->db, 'output_videos_url', $output_videos_url);
-			$valid = $valid && $this->EE->zen_settings->add_setting($this->EE->db, 'enable_test_mode', $enable_test_mode);
+			$this->EE->zen_settings->add_setting($k, $v);
 		}
 
-		// flash message
-		if ($valid == TRUE)
-		{
-			$this->EE->session->set_flashdata('message_success', $this->EE->lang->line('settings_update_success'));
-		}
-		else
-		{
-			$this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('settings_update_failure'));
-		}
+		// $this->EE->session->set_flashdata('message_success', $this->EE->lang->line('settings_update_success'));
+		// $this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('settings_update_failure'));
 
 		// redirect to settings
-		$this->EE->functions->redirect($this->base_url . AMP .'method=settings');
+		$this->EE->functions->redirect($this->base_url . AMP . 'method=settings');
 	} // end update_settings
 
 	// ----------------------------------------------------------------
@@ -394,9 +389,7 @@ class Zen_ee_mcp {
 	*/
 	public function create_encoding_job()
 	{
-
 		try {
-
 			// quick validation before creating job
 			$encode_job_fields = array(
 				array(
@@ -495,10 +488,6 @@ class Zen_ee_mcp {
 		}
 		catch (Services_Zencoder_Exception $e)
 		{
-			echo '<pre>';
-			var_dump($e);
-			echo '</pre>';
-
 			$this->EE->session->set_flashdata('message_failure', $e->getMessage());
 		} // end exception
 
@@ -634,15 +623,6 @@ class Zen_ee_mcp {
 			);
 		}
 
-		// use this for logging perhaps?
-	 	// foreach ($encoding_job->errors as $error)
-	 	// {
-	  // 	echo $error."\n";
-	  // }
-
-		exit;
-
-		return NULL;
 	} // end
 
 	// ----------------------------------------------------------------

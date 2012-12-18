@@ -12,14 +12,14 @@
  */
 
 // include Zencoder PHP lib & config
-require_once('vendor/zencoder-php/Services/Zencoder.php');
+require_once('libraries/zencoder-php/Services/Zencoder.php');
 
 class Zen_ee {
 
 	/**
 	*	CONSTRUCTOR
 	*/
-	public function __construct($str = '')
+	public function __construct()
 	{
 		$this->EE =& get_instance();
 	}
@@ -40,10 +40,10 @@ class Zen_ee {
 		$api_key = $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api');
 
 		// init new Zencoder object
-	  $zencoder = new Services_Zencoder($api_key);
+	  	$zencoder = new Services_Zencoder($api_key);
 
-	  // catch notification
-	  $notification = $zencoder->notifications->parseIncoming();
+	  	// catch notification
+	  	$notification = $zencoder->notifications->parseIncoming();
 
 		// handle notifications
 		switch ($notification->output->state) {
@@ -95,12 +95,11 @@ class Zen_ee {
 	*/
 	public function update_job_status_with($zencoder_job_output_id, $status)
 	{
-		// clean, only digits
 		$zencoder_job_output_id = preg_replace('/[^0-9]/', '', $zencoder_job_output_id);
 
 		$data = array('status' => $this->EE->db->escape_str($status));
 
-		$sql = $this->EE->db->update_string($this->EE->db->dbprefix . 'zen_ee_jobs', $data, "zencoder_job_output_id = '" . $zencoder_job_output_id . "'");
+		$sql = $this->EE->db->update_string('zen_ee_jobs', $data, "zencoder_job_output_id = '" . $zencoder_job_output_id . "'");
 
 		$this->EE->db->query($sql);
 	}
@@ -114,7 +113,6 @@ class Zen_ee {
 	*/
 	public function update_job_with($zencoder_job_output_id, $video_url, $thumbnail_url, $status)
 	{
-		// clean, only digits
 		$zencoder_job_output_id = preg_replace('/[^0-9]/', '', $zencoder_job_output_id);
 
 		$data = array(
@@ -123,10 +121,8 @@ class Zen_ee {
 			'status' => $this->EE->security->xss_clean($status)
 		);
 
-		// query
-		$sql = $this->EE->db->update_string($this->EE->db->dbprefix . 'zen_ee_jobs', $data, "zencoder_job_output_id = '" . $zencoder_job_output_id . "'");
+		$sql = $this->EE->db->update_string('zen_ee_jobs', $data, "zencoder_job_output_id = '" . $zencoder_job_output_id . "'");
 
-		// run query
 		$this->EE->db->query($sql);
 	}
 

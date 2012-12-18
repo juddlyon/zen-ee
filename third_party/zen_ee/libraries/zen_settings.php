@@ -32,14 +32,14 @@ class Zen_settings {
 	*
 	* @return boolean
 	*/
-	public function add_setting($db_handle, $setting_name, $setting_value)
+	public function add_setting($setting_name, $setting_value)
 	{
 		$setting_value = $this->EE->security->xss_clean($setting_value);
 
-		$db_handle->query("
+		$query = $this->EE->db->query("
 			INSERT INTO " . $db_handle->dbprefix . "zen_ee_settings(name, value)
-			VALUES('$setting_name','$setting_value')
-		 	ON DUPLICATE KEY UPDATE value='$setting_value';
+			VALUES('$setting_name', '$setting_value')
+		 	ON DUPLICATE KEY UPDATE value = '$setting_value';
 		");
 
 		if ($db_handle->_error_number() == 0)
