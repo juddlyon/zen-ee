@@ -389,7 +389,8 @@ class Zen_ee_mcp {
 	*/
 	public function create_encoding_job()
 	{
-		try {
+		try
+		{
 			// quick validation before creating job
 			$encode_job_fields = array(
 				array(
