@@ -40,11 +40,11 @@ class Zen_ee_mcp {
 		$load_libs = array(
 			'javascript',
 			'table',
-			'form_validation',
-			'zen_settings'
+			'form_validation'
 		);
 
 		$this->EE->load->library($load_libs);
+		$this->EE->load->model('zen_settings');
 
 		$this->EE->cp->load_package_css('zen_ee');
 		$this->EE->cp->load_package_js('jquery.pajinate');
@@ -79,17 +79,9 @@ class Zen_ee_mcp {
 		// retrieve jobs list
 		$jobs = array();
 
-		// $sql_get_jobs = '
-		// 	SELECT *
-		// 	FROM ' . $this->EE->db->dbprefix . 'zen_ee_jobs
-		// 	ORDER BY id DESC
-		// ';
-
 		$results = $this->EE->db
 			->select('zen_ee_jobs')
 			->order_by('id', 'DESC');
-
-		// $results = $this->EE->db->query($sql_get_jobs);
 
 		if ($results->num_rows() > 0)
 		{
@@ -125,11 +117,10 @@ class Zen_ee_mcp {
 	public function videos()
 	{
 		// redirect to settings page if missing settings
-		if (! $this->EE->zen_settings->has_all_settings($this->EE->db))
+		if ($this->EE->zen_settings->has_all_settings() == FALSE)
 		{
 			$this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('incomplete_settings'));
 			$this->EE->functions->redirect($this->base_url . AMP .'method=settings');
-			return;
 		}
 
 		// page title
@@ -141,9 +132,8 @@ class Zen_ee_mcp {
 		// retrieve file list
 		$files = array();
 
-		$input_videos_dir = $this->EE->zen_settings->get_setting($this->EE->db, 'input_videos_dir');
-
-		$input_videos_url = $this->EE->zen_settings->get_setting($this->EE->db, 'input_videos_url');
+		$input_videos_dir = $this->EE->zen_settings->get_setting('input_videos_dir');
+		$input_videos_url = $this->EE->zen_settings->get_setting('input_videos_url');
 
 		$hidden_field_ref_number = 1;
 
@@ -250,14 +240,14 @@ class Zen_ee_mcp {
 			$input_videos_dir = str_ireplace('themes/', '', $this->EE->config->item('theme_folder_path'));
 		}
 
-		$input_videos_url = $this->EE->zen_settings->get_setting($this->EE->db, 'input_videos_url');
+		$input_videos_url = $this->EE->zen_settings->get_setting('input_videos_url');
 
 		if ($input_videos_url == '')
 		{
 			$input_videos_url =  $this->EE->config->item('base_url');
 		}
 
-		$enable_test_mode_db_value = $this->EE->zen_settings->get_setting($this->EE->db, 'enable_test_mode');
+		$enable_test_mode_db_value = $this->EE->zen_settings->get_setting('enable_test_mode');
 
 		$form = array(
 			'open' => form_open($this->base_url . AMP .'method=update_settings', array('class' => 'form', 'id' => 'module_settings')),
@@ -265,7 +255,7 @@ class Zen_ee_mcp {
 			'api_key' => form_input(
 				array(
 					'name' => 'zencoder_api',
-					'value' => $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api'),
+					'value' => $this->EE->zen_settings->get_setting('zencoder_api'),
 					'class' => 'zen_med'
 				)
 			),
@@ -289,7 +279,7 @@ class Zen_ee_mcp {
 			'output_videos_path' => form_input(
 				array(
 					'name' => 'output_videos_path',
-					'value' => $this->EE->zen_settings->get_setting($this->EE->db, 'output_videos_path'),
+					'value' => $this->EE->zen_settings->get_setting('output_videos_path'),
 					'class' => 'zen_med'
 				)
 			),
@@ -297,7 +287,7 @@ class Zen_ee_mcp {
 			'output_videos_url' => form_input(
 				array(
 					'name' => 'output_videos_url',
-					'value' => $this->EE->zen_settings->get_setting($this->EE->db, 'output_videos_url'),
+					'value' => $this->EE->zen_settings->get_setting('output_videos_url'),
 					'class' => 'zen_med'
 				)
 			),
@@ -450,9 +440,9 @@ class Zen_ee_mcp {
 			// process form
 			if ($valid)
 			{
-				$api_key = $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api');
-				$output_path = $this->EE->zen_settings->get_setting($this->EE->db, 'output_videos_path');
-				$enable_test_mode = $this->EE->zen_settings->get_setting($this->EE->db, 'enable_test_mode');
+				$api_key = $this->EE->zen_settings->get_setting('zencoder_api');
+				$output_path = $this->EE->zen_settings->get_setting('output_videos_path');
+				$enable_test_mode = $this->EE->zen_settings->get_setting('enable_test_mode');
 
 				$zencoder_jobs = $this->create_zencoder_encode_job($input_url, $output_path, $api_key, $video_name, $width, $height, $thumb_time, $enable_test_mode);
 

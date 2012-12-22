@@ -21,11 +21,9 @@ class Zen_ee_ft extends EE_Fieldtype {
 	*/
 	public $info = array(
 		'name' => ZEN_EE_NAME,
-		'version'	=> ZEN_EE_VERSION
+		'version' => ZEN_EE_VERSION
 	);
-
 	public $table;
-
 	public $has_array_data = TRUE;
 
 	/**
@@ -34,7 +32,6 @@ class Zen_ee_ft extends EE_Fieldtype {
 	function __construct()
 	{
 		parent::EE_Fieldtype();
-
 		$this->table = $this->EE->db->dbprefix . "zen_ee_jobs";
 	}
 
@@ -59,13 +56,12 @@ class Zen_ee_ft extends EE_Fieldtype {
 		$this->EE->load->helper('form');
 
 		// get fields from DB
-		// note: use double-quotes in SQL to enable var expansion
 		$sql_get_fields = "
 			SELECT video_name, zencoder_job_id
 			FROM $this->table
 			WHERE status = 'Finished'
-				AND zencoder_job_id NOT IN (SELECT DISTINCT(zencoder_job_id)
-					FROM $this->table WHERE status <> 'Finished')
+				AND zencoder_job_id
+			NOT IN (SELECT DISTINCT(zencoder_job_id) FROM $this->table WHERE status != 'Finished')
 			GROUP BY zencoder_job_id
 			ORDER BY video_name ASC
 		";
@@ -94,15 +90,14 @@ class Zen_ee_ft extends EE_Fieldtype {
 	*/
 	public function replace_tag($data, $params = array(), $tagdata = TRUE)
 	{
-		$vid_sql = "SELECT * FROM $this->table WHERE zencoder_job_id = '$data'";
-
-		$video_query = $this->EE->db->query($vid_sql);
+		$video_query = $this->db->get_where('zen_ee_jobs', array('zencoder_job_id' => $data));
 
 		$vars = array();
-
 		$count = 0;
+
 		foreach ($video_query->result_array() AS $row)
 		{
+			// assign vars on first loop
 			if ($count == 0)
 			{
 				$vars["thumb_url"] = $row['output_thumbnail_url'];
@@ -113,7 +108,7 @@ class Zen_ee_ft extends EE_Fieldtype {
 				$vars["height"] = $row['height'];
 			}
 
-      $label = $row['label'];
+      		$label = $row['label'];
 			$vars[$label . "_url"] = $row['output_video_url'];
 			$vars[$label . "_status"] = $row['status'];
 			$vars[$label . "_zencoder_job_output_id"] = $row['zencoder_job_output_id'];
@@ -121,10 +116,10 @@ class Zen_ee_ft extends EE_Fieldtype {
 			$count++;
 		}
 
-		$tmp = $this->EE->functions->prep_conditionals($tagdata, $vars);
-		$chunk = $this->EE->functions->var_swap($tmp, $vars);
+		$tagdata = $this->EE->functions->prep_conditionals($tagdata, $vars);
+		$variables = $this->EE->functions->var_swap($tagdata, $vars);
 
-		return $chunk;
+		return $variables;
 	} // end replace_tag
 
 	// ----------------------------------------------------------------

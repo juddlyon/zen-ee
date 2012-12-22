@@ -33,11 +33,11 @@ class Zen_ee {
 	*/
 	public function update_job_status()
 	{
-		// load zen_settings lib
-		$this->EE->load->library('zen_settings');
+		// load zen_settings model
+		$this->EE->load->model('zen_settings');
 
 		// get API key from module settings
-		$api_key = $this->EE->zen_settings->get_setting($this->EE->db, 'zencoder_api');
+		$api_key = $this->EE->zen_settings->get_setting('zencoder_api');
 
 		// init new Zencoder object
 	  	$zencoder = new Services_Zencoder($api_key);
@@ -83,7 +83,7 @@ class Zen_ee {
 		$url_pieces = explode('/', $path);
 		$output_filename = end($url_pieces);
 
-		$output_url = $this->EE->zen_settings->get_setting($this->EE->db, 'output_videos_url');
+		$output_url = $this->EE->zen_settings->get_setting('output_videos_url');
 
 		return $output_url . $output_filename;
 	}

@@ -59,14 +59,14 @@ class Zen_settings {
 	*
 	* @return ''|$setting_value
 	*/
-	public function get_setting($db_handle, $setting_name)
+	public function get_setting($setting_name)
 	{
-		$query = $db_handle->get_where($db_handle->dbprefix . 'zen_ee_settings', array('name' => $setting_name), 1);
+		$query = $this->EE->db->get_where('zen_ee_settings', array('name' => $setting_name), 1);
 
 		$setting_value = $query->row('value');
 
 		if ($setting_value == NULL) {
-			return '';
+			return FALSE;
 		}
 		return $setting_value;
 	}
@@ -80,23 +80,23 @@ class Zen_settings {
 	*
 	* @return boolean
 	*/
-	public function has_all_settings($db_handle)
+	public function has_all_settings()
 	{
-			$setting_list = array(
-				'zencoder_api',
-				'input_videos_dir',
-				'input_videos_url',
-				'output_videos_path',
-				'output_videos_url'
-			);
+		$setting_list = array(
+			'zencoder_api',
+			'input_videos_dir',
+			'input_videos_url',
+			'output_videos_path',
+			'output_videos_url'
+		);
 
-			foreach ($setting_list as $setting)
+		foreach ($setting_list as $setting)
+		{
+			if ($this->get_setting($setting) == '')
 			{
-				if ($this->get_setting($db_handle, $setting) == '')
-				{
-					return FALSE;
-				}
+				return FALSE;
 			}
+		}
 
 		return TRUE;
 	}

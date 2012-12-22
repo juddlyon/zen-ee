@@ -1,13 +1,13 @@
 $(function() {
 
   // modal forms
-	$('.trig').click(function() {
+  $('.trig').click(function() {
     var modal_id = '#' + $(this).attr('data-modal');
     $(modal_id).dialog();
-	});
+  });
 
   $('.view-details').click(function() {
-      $(this).next('.details').dialog({width: 600});
+    $(this).next('.details').dialog({width: 600});
   });
 
   // table styles
