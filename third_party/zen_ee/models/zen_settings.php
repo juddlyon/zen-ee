@@ -21,6 +21,7 @@ class Zen_settings {
 	function __construct()
 	{
 		$this->EE =& get_instance();
+		$this->dbprefix = $this->EE->db->dbprefix;
 	}
 
 	// ----------------------------------------------------------------
@@ -30,24 +31,17 @@ class Zen_settings {
 	*
 	* if not present, insert record, otherwise update
 	*
-	* @return boolean
+	* @return void
 	*/
 	public function add_setting($setting_name, $setting_value)
 	{
 		$setting_value = $this->EE->security->xss_clean($setting_value);
 
 		$query = $this->EE->db->query("
-			INSERT INTO " . $db_handle->dbprefix . "zen_ee_settings(name, value)
+			INSERT INTO " . $this->dbprefix . "zen_ee_settings(name, value)
 			VALUES('$setting_name', '$setting_value')
 		 	ON DUPLICATE KEY UPDATE value = '$setting_value';
 		");
-
-		if ($db_handle->_error_number() == 0)
-		{
-			return TRUE;
-		}
-
-		return FALSE;
 	}
 
 	// ----------------------------------------------------------------
@@ -55,20 +49,23 @@ class Zen_settings {
 	/**
 	* GET SETTING
 	*
-	* retrieve setting value
+	* retrieve setting value or false
 	*
-	* @return ''|$setting_value
+	* @return $setting_row->name
 	*/
 	public function get_setting($setting_name)
 	{
-		$query = $this->EE->db->get_where('zen_ee_settings', array('name' => $setting_name), 1);
+		$query = $this->EE->db->get_where('zen_ee_settings', array('name' => $setting_name));
 
-		$setting_value = $query->row('value');
-
-		if ($setting_value == NULL) {
+		if ($query->num_rows() > 0)
+		{
+			$setting_row = $query->row();
+			return $setting_row->value;
+		}
+		else
+		{
 			return FALSE;
 		}
-		return $setting_value;
 	}
 
 	// ----------------------------------------------------------------
@@ -92,13 +89,8 @@ class Zen_settings {
 
 		foreach ($setting_list as $setting)
 		{
-			if ($this->get_setting($setting) == '')
-			{
-				return FALSE;
-			}
+			$this->get_setting($setting);
 		}
-
-		return TRUE;
 	}
 
 }

@@ -78,9 +78,7 @@ class Zen_ee_upd {
 		);
 
 		$this->EE->dbforge->add_field($fields);
-
 		$this->EE->dbforge->add_key('id', TRUE);
-
 		$this->EE->dbforge->create_table('zen_ee_settings');
 
 		$this->EE->db->query('
@@ -151,9 +149,7 @@ class Zen_ee_upd {
 		);
 
 		$this->EE->dbforge->add_field($fields);
-
 		$this->EE->dbforge->add_key('id', TRUE);
-
 		$this->EE->dbforge->create_table('zen_ee_jobs');
 
 		// add action id
@@ -178,26 +174,17 @@ class Zen_ee_upd {
 	*/
 	function uninstall()
 	{
-		$this->EE->db->select('module_id');
-
-		$query = $this->EE->db->get_where('modules', array('module_name' => ZEN_EE_CLASS_NAME));
-
 		// delete from exp_modules
 		$this->EE->db
 			->where('module_name', ZEN_EE_CLASS_NAME)
 			->delete('modules');
 
-		// drop zen_ee_settings
-		$this->EE->dbforge->drop_table(
-			array(
-				'zen_ee_settings',
-				'zen_ee_jobs'
-			)
-		);
+		$this->EE->dbforge->drop_table('zen_ee_settings');
+		$this->EE->dbforge->drop_table('zen_ee_jobs');
 
 		// delete update_job_status action
 		$this->EE->db
-			->where('class', ZEN_EE_CLASS_NAME);
+			->where('class', ZEN_EE_CLASS_NAME)
 			->delete('actions');
 
 		return TRUE;

@@ -23,11 +23,11 @@ class Zen_ee_mcp {
 		$this->EE =& get_instance();
 
 		// define base url for module
-		$this->base_url = $this->data['base_url'] = BASE . AMP .'C=addons_modules&amp;M=show_module_cp&amp;module=zen_ee';
+		$this->base_url = BASE . AMP . 'C=addons_modules&amp;M=show_module_cp&amp;module=zen_ee';
 
 		// right navigation buttons
 		$right_nav = array(
-		    	$this->EE->lang->line('videos') => $this->base_url . AMP .'method=videos',
+		    	$this->EE->lang->line('videos') => $this->base_url . AMP . 'method=videos',
 			$this->EE->lang->line('jobs') => $this->base_url . AMP .'method=jobs',
 		    	$this->EE->lang->line('settings') => $this->base_url . AMP . 'method=settings'
 		);
@@ -80,8 +80,10 @@ class Zen_ee_mcp {
 		$jobs = array();
 
 		$results = $this->EE->db
-			->select('zen_ee_jobs')
-			->order_by('id', 'DESC');
+			->select('*')
+			->from('zen_ee_jobs')
+			->order_by('id', 'DESC')
+			->get();
 
 		if ($results->num_rows() > 0)
 		{
@@ -120,7 +122,7 @@ class Zen_ee_mcp {
 		if ($this->EE->zen_settings->has_all_settings() == FALSE)
 		{
 			$this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('incomplete_settings'));
-			$this->EE->functions->redirect($this->base_url . AMP .'method=settings');
+			$this->EE->functions->redirect($this->base_url . AMP . 'method=settings');
 		}
 
 		// page title
@@ -168,7 +170,7 @@ class Zen_ee_mcp {
 
 		// view variables
 		$vars = array(
-			'form_open' => form_open($this->base_url . AMP . 'method=create_encoding_job', array('class' => 'form', 'id' => 'videos')),
+			'form_open' => form_open('C=addons_modules&M=show_module_cp&module=zen_ee&method=create_encoding_job', array('class' => 'form', 'id' => 'videos')),
 			'files' => $files,
 			'form_video_name_label' => form_label($this->EE->lang->line('video_name_label'), 'video_name', array()),
 			'form_video_name' => form_input(
@@ -222,8 +224,8 @@ class Zen_ee_mcp {
 	} // end  videos
 
 	/*
-  * SETTINGS
-  */
+	* SETTINGS
+	*/
 	public function settings()
 	{
 		// page title
@@ -233,16 +235,16 @@ class Zen_ee_mcp {
 		$this->EE->cp->set_breadcrumb($this->base_url, $this->EE->lang->line('zen_ee_module_name'));
 
 		// set form variables
-		$input_videos_dir = $this->EE->zen_settings->get_setting($this->EE->db, 'input_videos_dir');
+		$input_videos_dir = $this->EE->zen_settings->get_setting('input_videos_dir');
 
-		if ($input_videos_dir == '')
+		if (! $input_videos_dir)
 		{
 			$input_videos_dir = str_ireplace('themes/', '', $this->EE->config->item('theme_folder_path'));
 		}
 
 		$input_videos_url = $this->EE->zen_settings->get_setting('input_videos_url');
 
-		if ($input_videos_url == '')
+		if (! $input_videos_url)
 		{
 			$input_videos_url =  $this->EE->config->item('base_url');
 		}
@@ -250,7 +252,7 @@ class Zen_ee_mcp {
 		$enable_test_mode_db_value = $this->EE->zen_settings->get_setting('enable_test_mode');
 
 		$form = array(
-			'open' => form_open($this->base_url . AMP .'method=update_settings', array('class' => 'form', 'id' => 'module_settings')),
+			'open' => form_open('C=addons_modules&M=show_module_cp&module=zen_ee&method=update_settings', array('class' => 'form', 'id' => 'module_settings')),
 			'api_key_label' => form_label($this->EE->lang->line('api_key_label'), 'zencoder_api', array()),
 			'api_key' => form_input(
 				array(
@@ -343,30 +345,72 @@ class Zen_ee_mcp {
 	*/
 	public function update_settings()
 	{
-		// clean up and assign settings to vars
-		$api_key = $this->EE->input->get_post('zencoder_api', TRUE);
-		$input_videos_dir = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_dir'));
-		$input_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_url'));
-		$output_videos_path = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_path'));
-		$output_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_url'));
-		$enable_test_mode = $this->EE->input->get_post('enable_test_mode', TRUE);
-
-		$settings_to_update = array(
-			'zencoder_api' => $api_key,
-			'input_videos_dir' =>  $input_videos_dir,
-			'input_videos_url' =>  $input_videos_url,
-			'output_videos_path' =>  $output_videos_path,
-			'output_videos_url' =>  $output_videos_url,
-			'enable_test_mode' =>  $enable_test_mode
+		$settings_validation_rules = array(
+			array(
+			      'field' => 'zencoder_api',
+			      'label' => 'Zencoder API',
+			      'rules' => 'trim|required|xss_clean'
+			),
+			array(
+			      'field' => 'input_videos_dir',
+			      'label' => 'Input Videos Directory',
+			      'rules' => 'trim|required|xss_clean'
+			),
+			array(
+			      'field' => 'input_videos_url',
+			      'label' => 'Input Videos URL',
+			      'rules' => 'trim|required|xss_clean'
+			),
+			array(
+			      'field' => 'output_videos_path',
+			      'label' => 'Output Videos Path',
+			      'rules' => 'trim|required|xss_clean'
+			),
+			array(
+			      'field' => 'output_videos_url',
+			      'label' => 'Output Videos URL',
+			      'rules' => 'trim|required|xss_clean'
+			),
+			array(
+			      'field' => 'enable_test_mode',
+			      'label' => 'Enable Test Mode',
+			      'rules' => 'required'
+			)
 		);
 
-		foreach ($settings_to_update as $k => $v)
-		{
-			$this->EE->zen_settings->add_setting($k, $v);
-		}
+		$this->EE->form_validation->set_rules($settings_validation_rules);
 
-		// $this->EE->session->set_flashdata('message_success', $this->EE->lang->line('settings_update_success'));
-		// $this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('settings_update_failure'));
+		$valid_form = $this->EE->form_validation->run() == TRUE;
+
+		if ($valid_form)
+		{
+			// clean up and assign settings to vars
+			$api_key = $this->EE->input->get_post('zencoder_api', TRUE);
+			$input_videos_dir = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_dir'));
+			$input_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('input_videos_url'));
+			$output_videos_path = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_path'));
+			$output_videos_url = $this->ensure_trailing_slash($this->EE->input->get_post('output_videos_url'));
+			$enable_test_mode = $this->EE->input->get_post('enable_test_mode', TRUE);
+
+			$settings_to_update = array(
+				'zencoder_api' => $api_key,
+				'input_videos_dir' =>  $input_videos_dir,
+				'input_videos_url' =>  $input_videos_url,
+				'output_videos_path' =>  $output_videos_path,
+				'output_videos_url' =>  $output_videos_url,
+				'enable_test_mode' =>  $enable_test_mode
+			);
+
+			foreach ($settings_to_update as $k => $v)
+			{
+				$this->EE->zen_settings->add_setting($k, $v);
+			}
+
+			$this->EE->session->set_flashdata('message_success', $this->EE->lang->line('settings_update_success'));
+		} else
+		{
+			$this->EE->session->set_flashdata('message_failure', $this->EE->lang->line('settings_update_failure'));
+		}
 
 		// redirect to settings
 		$this->EE->functions->redirect($this->base_url . AMP . 'method=settings');
