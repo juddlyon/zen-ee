@@ -236,19 +236,7 @@ class Zen_ee_mcp {
 
 		// set form variables
 		$input_videos_dir = $this->EE->zen_settings->get_setting('input_videos_dir');
-
-		if (! $input_videos_dir)
-		{
-			$input_videos_dir = str_ireplace('themes/', '', $this->EE->config->item('theme_folder_path'));
-		}
-
 		$input_videos_url = $this->EE->zen_settings->get_setting('input_videos_url');
-
-		if (! $input_videos_url)
-		{
-			$input_videos_url =  $this->EE->config->item('base_url');
-		}
-
 		$enable_test_mode_db_value = $this->EE->zen_settings->get_setting('enable_test_mode');
 
 		$form = array(

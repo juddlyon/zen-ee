@@ -21,7 +21,7 @@ $lang = array(
 	'submit'	=> 'Save',
 	'api_key_label' => 'Zencoder API key <br /><em>(app.zencoder.com/login &rarr; API &rarr; Overview &rarr; Full Access API Keys)</em>',
 	'settings_update_success' => 'Your settings have been updated.',
-	'settings_update_failure' => 'There was a problem updating your settings. Please try again.',
+	'settings_update_failure' => 'Please complete your settings.',
 	'input_videos_dir_label' => 'Server path to input videos <br /><em>(e.g.: /home/username/public_html/input-videos/)</em>',
 	'input_videos_url_label' => 'URL of input videos <br /><em>(e.g.: http://example.com/input-videos/)</em>',
 	'output_videos_path_label' => 'Server path to output videos <br /><em>(e.g.: sftp://user:password@example.com/home/username/public_html/output-videos/, ftp://user:password@example.com/public_html/output-videos/, s3://videos.example.com/ - <a href="https://app.zencoder.com/docs/api/encoding/general-output-settings/url" target="_blank">Learn more</a>)</em>',

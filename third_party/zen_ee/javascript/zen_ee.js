@@ -31,8 +31,8 @@ $(function() {
     show_first_last: false
   });
 
-  // hide pagination nav < 5
-  if (! $('.page_link').length) {
+  // hide pagination nav < 20
+  if (! $('.page_link').length < 20) {
     $('.pagination').remove();
   }
 

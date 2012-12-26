@@ -61,8 +61,7 @@ class Zen_settings {
 		{
 			$setting_row = $query->row();
 			return $setting_row->value;
-		}
-		else
+		} else
 		{
 			return FALSE;
 		}
@@ -89,7 +88,16 @@ class Zen_settings {
 
 		foreach ($setting_list as $setting)
 		{
-			$this->get_setting($setting);
+			$setting_check[] = $this->get_setting($setting);
+		}
+
+		// if any settings are false, return FALSE
+		if (in_array(FALSE, $setting_check))
+		{
+			return FALSE;
+		} else
+		{
+			return TRUE;
 		}
 	}
 
