@@ -38,13 +38,19 @@ tempor incididunt ut labore</p>
             <a href="https://app.zencoder.com/docs/faq/codecs-and-formats">nearly anything</a>
 
           <h3>Why not just use YouTube/Vimeo/Wistia/Viddler/SublimeVideo?</h3>
-          <p>Et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure </p>
+          <p>Video hosting services are great in most cases, but a few reasons to self-host include:</p>
+          <ul>
+            <li>Control</li>
+            <li>Corporate firewalls</li>
+            <li>Centralization</li>
+          </ul>
 
           <h3>How does it work?</h3>
-          <p>Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <ol>
+              <li><strong>Tell Zen EE where your input videos live.</strong> This can be an EE upload directory, any directory on your server, or a public URL)</li>
+              <li><strong>Tell Zen EE where you'd like the output videos to be placed.</strong> Output can be transported via SSH, FTP, or SFTP to your web server, Amazon S3, or Rackspace Cloud Files.</li>
+              <li><strong>Create an encoding job</strong></li>
+            </ol>
 
           <h3>What player(s) can I use?</h3>
           <p>We've used and recommend <a href="http://videojs.com/">Video.js</a>, which was created by Steve Heffernan of Zencoder.</p>
@@ -57,10 +63,32 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </ul>
 
           <h3>Who created this?</h3>
-          <p>Judd Lyon &amp; Sebastian Brocher for Trifecta Interactive.</p>
+          <p><a href="https://github.com/juddlyon">Judd Lyon</a> &amp; <a href="https://github.com/sbrocher">Sebastian Brocher</a>for <a href="http://trifectainteractive.com">Trifecta Interactive</a>.</p>
 
-         <pre><code>
-          sweet code block
+          <h3>Instructions</h3>
+            <ol>
+              <li>Copy </li>
+            </ol>
+
+          <p>Include the following in your page HEAD:</p>
+          <pre><code>
+          <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+          <script src="http://vjs.zencdn.net/c/video.js"></script>
+          </code></pre>
+
+          <p>Include the following in your page template. Adjust the Channel Entries tag as needed and use your Custom Field's actual name:</p>
+          <pre><code>
+          {exp:channel:entries channel='test'}
+            {zen_custom_field}
+              <h2>{name}</h2>
+              <video id="m
+          y_video_1" class="video-js vjs-default-skin" controls
+                preload="auto" width="{width}" height="{height}" poster="{thumb_url}"     data-setup="{}">
+                <source src="{mp4_url}" type='video/mp4'>
+                <source src="{webm_url}" type='video/webm'>
+              </video>
+            {/zen_custom_field}
+          {/exp:channel:entries}
         </code></pre>
 
         <footer>
