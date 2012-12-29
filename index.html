@@ -78,12 +78,15 @@
             </ol>
 
           <p>Include the following in your page HEAD:</p>
+<div class="highlight">
 <pre><code>
 &lt;link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet"&gt;
 &lt;script src="http://vjs.zencdn.net/c/video.js"&gt; &lt;/script&gt;
 </code></pre>
+</div>
 
           <p>Include the following in your page template. Adjust the Channel Entries tag as needed and use your Custom Field's actual name:</p>
+<div class="highlight">
 <pre><code>
 {exp:channel:entries channel='test'}
   {zen_custom_field}
@@ -96,6 +99,7 @@
   {/zen_custom_field}
 {/exp:channel:entries}
 </code></pre>
+</div>
 
         <footer>
           Zen EE is maintained by <a href="https://github.com/juddlyon">juddlyon</a><br>
