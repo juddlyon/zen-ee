@@ -78,11 +78,10 @@
             </ol>
 
           <p>Include the following in your page HEAD:</p>
-<pre><code>&lt;link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet"&gt;<br>&lt;script src="http://vjs.zencdn.net/c/video.js"&gt; &lt;/script&gt;</code></pre>
+<pre><code>&lt;link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet"&gt;<br>&lt;script src="http://vjs.zencdn.net/c/video.js"&gt;&lt;/script&gt;</code></pre>
 
           <p>Include the following in your page template. Adjust the Channel Entries tag as needed and use your Custom Field's actual name:</p>
-<pre><code>
-{exp:channel:entries channel='test'}
+<pre><code>{exp:channel:entries channel='test'}
   {zen_custom_field}
     &lt;h2&gt;{name}&lt;/h2&gt;
     &lt;video id="my_video_1" class="video-js vjs-default-skin" controls
