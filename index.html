@@ -31,6 +31,8 @@
         <hr>
 
         <section id="main_content">
+          <h2>INSERT DEMO VIDEO HERE</h2>
+
           <h3>What does Zen EE do?</h3>
           <p>Zen EE allows you to utilize Zencoder, a cloud-based video encoding service from within ExpressionEngine. It uses the power of cloud computing to quickly convert between video formats, all without hammering your server. <a href="http://zencoder.com/en/how-it-works">Learn how it works</a>.</p>
 
@@ -55,7 +57,7 @@
               <li><strong>PROFIT!</strong></li>
             </ol>
 
-          <h3>What player(s) can I use?</h3>
+          <h3>What HTML5 video player(s) can I use?</h3>
           <p>We use and highly recommend <a href="http://videojs.com/">Video.js</a>, which was created by Steve Heffernan of Zencoder.</p>
           <p>Here's a few good alternatives:</p>
           <ul>
@@ -72,15 +74,15 @@
             <ol>
               <li>Copy third_party/zen_ee to your ExpressionEngine third_party directory</li>
               <li>Click the install link (<em>Add-ons  &rarr; Modules &rarr; Zen EE &rarr; Install </em>)</li>
+              <li>Install both the module and the fieldtype</li>
             </ol>
 
           <p>Include the following in your page HEAD:</p>
-          <pre>
-            <code>
+
+ ```javascript
               <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
               <script src="http://vjs.zencdn.net/c/video.js"></script>
-          </code>
-          </pre>
+ ```
 
           <p>Include the following in your page template. Adjust the Channel Entries tag as needed and use your Custom Field's actual name:</p>
           <pre>
