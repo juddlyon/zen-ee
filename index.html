@@ -75,11 +75,12 @@
               <li>Copy third_party/zen_ee to your ExpressionEngine third_party directory</li>
               <li>Click the install link (<em>Add-ons  &rarr; Modules &rarr; Zen EE &rarr; Install </em>)</li>
               <li>Install both the module and the fieldtype</li>
-            </ol>
 
-          <p>Include the following in your page HEAD:</p>
+          <li>
+            <p>Include the following in your page HEAD:</p>
 <pre><code>&lt;link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet"&gt;<br>&lt;script src="http://vjs.zencdn.net/c/video.js"&gt;&lt;/script&gt;</code></pre>
-
+          </li>
+          <li>
           <p>Include the following in your page template. Adjust the Channel Entries tag as needed and use your Custom Field's actual name:</p>
 <pre><code>{exp:channel:entries channel='test'}
   {zen_custom_field}
@@ -92,6 +93,8 @@
   {/zen_custom_field}
 {/exp:channel:entries}
 </code></pre>
+</li>
+            </ol>
 
         <footer>
           Zen EE is maintained by <a href="https://github.com/juddlyon">juddlyon</a><br>
