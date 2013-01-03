@@ -70,12 +70,75 @@
           <h3>Who created this?</h3>
           <p><a href="https://github.com/juddlyon">Judd Lyon</a> &amp; <a href="https://github.com/sbrocher">Sebastian Brocher</a> for <a href="http://trifectainteractive.com">Trifecta Interactive</a>.</p>
 
-          <h3>Instructions</h3>
+          <h3>Installation</h3>
             <ol>
               <li>Copy third_party/zen_ee to your ExpressionEngine third_party directory</li>
               <li>Click the install link (<em>Add-ons  &rarr; Modules &rarr; Zen EE &rarr; Install </em>)</li>
               <li>Install both the module and the fieldtype</li>
+            </ol>
 
+          <h3>Configuration</h3>
+          <ol>
+            <li>Sign up for Zencoder: http://zencoder.com/
+                <ul>
+                    <li>Create an API key: API &larr; Full Access API Keys &larr; New Full Access Key</li>
+                </ul>
+            </li>
+            <li>Copy your API key to the Zen EE API field on the Zen EE Settings screen</li>
+            <li>Add the server path to your input videos. This can be any publicly viewable directory such as an ExpressionEngine upload directory</li>
+            <li>Add the URL of your input videos directory
+                <ul>
+                    <li>Add the server path to your output videos. Supported protocols: FTP, SFTP, Rackspace Cloud Files, and Amazon S3. https://app.zencoder.com/docs/api/encoding/general-output-settings/url</li>
+                </ul>
+            </li>
+            <li>Add the URL of your output videos</li>
+            <li>Test Mode: On = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. Off = production mode, you will incur charges.</li>
+            <li>* https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode</li>
+          </ol>
+
+          <h3>Usage</h3>
+
+        <h4>Creating an encoding job</h4>
+        <ol>
+          <li>Upload videos to your input video folder
+            <ul>
+              <li>You should be able to view these in the Videos tab of the Zen EE Module</li>
+              <li>Click _Encode_ on the video you'd like to convert</li>
+              <li>Enter a desired <em>Name</em>, <em>Video Width</em>,  <em>Video Height</em>, and the  <em>Thumbnail Time</em>. The <em>Thumbnail Time</em> is the second in the video where you'd like the thumbnail image generated from.</li>
+            </ul>
+          </li>
+          <li>Click <em>Encode</em> and you should get a message saying <em>The video encoding job was successfully created.</em></li>
+          <li>Select the <em>Jobs</em> tab to monitor the job. The <em>Job Status</em> column will indicate <em>Created</em>, <em>Finished</em>, or <em>Failed</em>.</li>
+          <li><strong>Created</strong> means the job has been created and is in-progress. Refresh your browser occasionally to check the status.</li>
+          <li><strong>Finished</strong> means the job is done and is available to your Fieldtype</li>
+          <li><strong>Failed</strong> means something went wrong - log into your Zencoder account find out exactly what failed or try the job again. Usually this is an input or output path issue.</li>
+        </ol>
+
+        <h4>Using the Fieldtype</h4>
+        <ol>
+          <li>Create an ExpressionEngnine Fieldtype as usual and select <em>Zen EE</em> as the Type.</li>
+          <li>Your Field will show a dropdown menu of all successful (<em>Finished</em>) encoding jobs. Simply select the one you'd like to insert into your page.</li>
+        </ol>
+
+        <h4>Template Tags</h4>
+         <p>Your Zen EE custom field can be output as a tag pair. The following variables are available:</p>
+         <ul>
+            <li><strong>{thumb_url}:</strong> the thumbnail URL</li>
+            <li><strong>{input_url}:</strong> the path to the original input file</li>
+            <li><strong>{name}:</strong> the name you selected for your video</li>
+            <li><strong>{zencoder_job_id}:</strong> useful in case you need to troubleshoot</li>
+            <li><strong>{width}:</strong> the width you designated for the output video</li>
+            <li><strong>{height}:</strong> the height you designated for the output video</li>
+            <li><strong>{mp4_status}:</strong> the MP4 file's output status</li>
+            <li><strong>{mp4_zencoder_job_output_id}:</strong> the job ID of the MP4 file</li>
+            <li><strong>{mp4_url}:</strong> the URL to the MP4 output file</li>
+            <li><strong>{webm_status}:</strong> the WebM file's output status</li>
+            <li><strong>{webm_zencoder_job_output_id}:</strong> the job ID of the WebM file</li>
+            <li><strong>{webm_url}:</strong> the URL to the WebM output file </li>
+         </ul>
+
+        <h4>Example using <a href="http://videojs.com">Video.js</a></h4>
+        <ol>
           <li>
             <p>Include the following in your page HEAD:</p>
 <pre><code>&lt;link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet"&gt;<br>&lt;script src="http://vjs.zencdn.net/c/video.js"&gt;&lt;/script&gt;</code></pre>
@@ -92,6 +155,15 @@
     &lt;/video&gt;
   {/zen_custom_field}
 {/exp:channel:entries}
+</code></pre>
+</li>
+<li>
+<strong>Warning: you may need to add MP4 and WebM as MIMETYPES on your server.</strong>
+
+<p>.htaccess</p>
+<pre><code>
+AddType video/mp4 .mp4
+AddType video/webm .webm
 </code></pre>
 </li>
             </ol>
