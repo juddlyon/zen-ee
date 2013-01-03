@@ -34,16 +34,15 @@
           <h2>INSERT DEMO VIDEO HERE</h2>
 
           <ul>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
-            <li><a href="#">Section Link</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#fieldtype">Using the Fieldtype</a></li>
+            <li><a href="#support">Support</a></li>
           </ul>
 
+          <h1 id="faq">FAQ</h1>
           <h3>What does Zen EE do?</h3>
           <p>Zen EE allows you to utilize Zencoder, a cloud-based video encoding service from within ExpressionEngine. It uses the power of cloud computing to quickly convert between video formats, all without hammering your server. <a href="http://zencoder.com/en/how-it-works">Learn how it works</a>.</p>
 
@@ -81,14 +80,14 @@
           <h3>Who created this?</h3>
           <p><a href="https://github.com/juddlyon">Judd Lyon</a> &amp; <a href="https://github.com/sbrocher">Sebastian Brocher</a> for <a href="http://trifectainteractive.com">Trifecta Interactive</a>.</p>
 
-          <h3>Installation</h3>
+          <h1 id="installation">Installation</h1>
             <ol>
               <li>Copy third_party/zen_ee to your ExpressionEngine third_party directory</li>
               <li>Click the install link (<em>Add-ons  &rarr; Modules &rarr; Zen EE &rarr; Install </em>)</li>
               <li>Install both the module and the fieldtype</li>
             </ol>
 
-          <h3>Configuration</h3>
+          <h1 id="configuration">Configuration</h1>
           <ol>
             <li>Sign up for Zencoder: http://zencoder.com/
                 <ul>
@@ -107,7 +106,7 @@
             <li>* https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode</li>
           </ol>
 
-          <h3>Usage</h3>
+          <h1 id="usage">Usage</h1>
 
         <h4>Creating an encoding job</h4>
         <ol>
@@ -125,7 +124,7 @@
           <li><strong>Failed</strong> means something went wrong - log into your Zencoder account find out exactly what failed or try the job again. Usually this is an input or output path issue.</li>
         </ol>
 
-        <h4>Using the Fieldtype</h4>
+        <h1 id="fieldtype">Using the Fieldtype</h1>
         <ol>
           <li>Create an ExpressionEngnine Fieldtype as usual and select <em>Zen EE</em> as the Type.</li>
           <li>Your Field will show a dropdown menu of all successful (<em>Finished</em>) encoding jobs. Simply select the one you'd like to insert into your page.</li>
@@ -177,7 +176,7 @@
 </li>
             </ol>
 
-            <h3>Support</h3>
+            <h1 id="support">Support</h1>
             <p>Pull requests welcome! Please file bugs using <a href="https://github.com/juddlyon/zen-ee/issues">Github Issues</a></p>
 
         <footer>
