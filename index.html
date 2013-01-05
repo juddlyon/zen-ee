@@ -96,13 +96,21 @@
           <h1 id="configuration">Configuration</h1>
           <ol>
             <li>Sign up for <a href="http://zencoder.com/" target="_blank">Zencoder</a>
-            <li>Create an API key: <em>API &rarr; Full Access API Keys &rarr; New Full Access Key</em></li>
-            <li>Copy your API key to the Zen EE API field on the Zen EE Settings screen</li>
+                <ul>
+                  <li>Create an API key: <em>API &rarr; Full Access API Keys &rarr; New Full Access Key</em></li>
+                  <li>Copy your API key to the Zen EE API field on the Zen EE Settings screen</li>
+                </ul>
+            </li>
             <li>Add the server path to your input videos. This can be any publicly viewable directory such as an ExpressionEngine upload directory</li>
             <li>Add the URL of your input videos directory
             <li>Add the server path to your output videos. Supported protocols: FTP, SFTP, Rackspace Cloud Files, and Amazon S3. <a href="https://app.zencoder.com/docs/api/encoding/general-output-settings/url">Output API reference</a></li>
             <li>Add the URL of your output videos</li>
-            <li>Test Mode: <em>On</em> = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. <em>Off</em> = production mode, you will incur charges. <a href="https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode">Test Mode API reference</a></li>
+            <li>Test Mode:
+              <ul>
+                <li><em>On</em> = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked.</li>
+                <li><em>Off</em> = production mode, you will incur charges. <a href="https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode">Test Mode API reference</a></li>
+              </ul>
+            </li>
           </ol>
 
           <h1 id="usage">Usage</h1>
@@ -164,18 +172,16 @@
   {/zen_custom_field}
 {/exp:channel:entries}
 </code></pre>
-</li>
-<li>
-<strong>Warning: you may need to add MP4 and WebM as MIMETYPES on your server.</strong>
+        </li>
+        <li>
+          <strong>Warning: you may need to add MP4 and WebM as MIMETYPES on your server.</strong>
+          <h5>.htaccess or httpd.conf</h5>
+          <pre><code>AddType video/mp4 .mp4<br />AddType video/webm .webm</code></pre>
+        </li>
+      </ol>
 
-<h5>.htaccess</h5>
-<pre><code>AddType video/mp4 .mp4<br />AddType video/webm .webm
-</code></pre>
-</li>
-            </ol>
-
-            <h1 id="support">Support</h1>
-            <p>Pull requests welcome! Please file bugs using <a href="https://github.com/juddlyon/zen-ee/issues">Github Issues</a></p>
+      <h1 id="support">Support</h1>
+      <p>Feature suggestions and pull requests welcome! Please use the <a href="https://github.com/juddlyon/zen-ee/issues">issue tracker</a> for bugs.</p>
 
         <footer>
           Zen EE is maintained by <a href="https://github.com/juddlyon">juddlyon</a><br>
