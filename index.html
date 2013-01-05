@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <style type="text/css">
+      ol ul li {
+        list-style: inside disc;
+      }
+    </style>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -88,14 +93,14 @@
 
           <h1 id="configuration">Configuration</h1>
           <ol>
-            <li>Sign up for <a href="http://zencoder.com/" target="_blank">Zencoder</a>:
-            <li>Create an API key: <em>API &larr; Full Access API Keys &larr; New Full Access Key</em></li>
+            <li>Sign up for <a href="http://zencoder.com/" target="_blank">Zencoder</a>
+            <li>Create an API key: <em>API &rarr; Full Access API Keys &rarr; New Full Access Key</em></li>
             <li>Copy your API key to the Zen EE API field on the Zen EE Settings screen</li>
             <li>Add the server path to your input videos. This can be any publicly viewable directory such as an ExpressionEngine upload directory</li>
             <li>Add the URL of your input videos directory
             <li>Add the server path to your output videos. Supported protocols: FTP, SFTP, Rackspace Cloud Files, and Amazon S3. <a href="https://app.zencoder.com/docs/api/encoding/general-output-settings/url">Output API reference</a></li>
             <li>Add the URL of your output videos</li>
-            <li>Test Mode: On = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. Off = production mode, you will incur charges. <a href="https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode">Test Mode API reference</a></li>
+            <li>Test Mode: <em>On</em> = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. <em>Off</em> = production mode, you will incur charges. <a href="https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode">Test Mode API reference</a></li>
           </ol>
 
           <h1 id="usage">Usage</h1>
@@ -103,12 +108,12 @@
           <ol>
             <li>Upload videos to your input video folder
             <ul>
-              <li>You should be able to view these in the Videos tab of the Zen EE Module</li>
-              <li>Click _Encode_ on the video you'd like to convert</li>
+              <li>You should now be able to view these in the <em>Videos</em> tab of the Zen EE Module</li>
+              <li>Click <em>Encode</em> on the video you'd like to convert</li>
               <li>Enter a desired <em>Name</em>, <em>Video Width</em>,  <em>Video Height</em>, and the  <em>Thumbnail Time</em>. The <em>Thumbnail Time</em> is the second in the video where you'd like the thumbnail image generated from.</li>
             </ul>
           </li>
-          <li>Click <em>Encode</em> and you should get a message saying <em>The video encoding job was successfully created.</em></li>
+          <li>Click <em>Encode</em>, you should get a message saying <em>The video encoding job was successfully created.</em></li>
           <li>Select the <em>Jobs</em> tab to monitor the job. The <em>Job Status</em> column will indicate <em>Created</em>, <em>Finished</em>, or <em>Failed</em>.</li>
           <li><strong>Created</strong> means the job has been created and is in-progress. Refresh your browser occasionally to check the status.</li>
           <li><strong>Finished</strong> means the job is done and is available to your Fieldtype</li>
