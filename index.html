@@ -52,24 +52,23 @@
           <h3>Why not just use YouTube/Vimeo/Wistia/Viddler/SublimeVideo?</h3>
           <p>Video hosting services are great in most cases, but a few reasons to self-host include:</p>
           <ul>
-            <li>Full-control over output formats and look-and-feel</li>
-            <li>Privacy, e.g. videos are behind a corporate firewall</li>
-            <li>Centralization: no need to leave the CMS to manage a third-party service</li>
+            <li><strong>Control</strong> over output formats and look-and-feel</li>
+            <li><strong>Privacy</strong>, e.g. videos are behind a corporate firewall</li>
+            <li><strong>Centralization:</strong> no need to leave the CMS to manage a third-party service</li>
           </ul>
 
           <h3>How does it work?</h3>
             <ol>
-              <li><strong>Tell Zen EE where your input videos live.</strong> This can be an EE upload directory, any directory on your server, or a public URL)</li>
-              <li><strong>Tell Zen EE where you'd like the output videos to be placed.</strong> Output can be transported via SSH, FTP, or SFTP to your web server, Amazon S3, or Rackspace Cloud Files.</li>
+              <li><strong>Tell Zen EE where your input videos live.</strong> This can be an EE upload directory, any accessible directory on your server, or a public URL.</li>
+              <li><strong>Tell Zen EE where you'd like the output videos to be placed.</strong> Output can be transported via SSH, FTP, or SFTP to your web server, Amazon S3, or Rackspace Cloud Files account.</li>
               <li><strong>Create an encoding job from the Zen EE admin</strong></li>
               <li><strong>Use the Zen EE fieldtype to select your desired video.</strong> Reference your video files, thumbnails, and meta information using EE's trademark templating.</li>
-              <li><strong>????</strong></li>
-              <li><strong>PROFIT!</strong></li>
+              <li><strong>That's it!</strong></li>
             </ol>
 
           <h3>What HTML5 video player(s) can I use?</h3>
-          <p>We use and highly recommend <a href="http://videojs.com/">Video.js</a>, which was created by Steve Heffernan of Zencoder.</p>
-          <p>Here's a few good alternatives:</p>
+          <p>We recommend <a href="http://videojs.com/">Video.js</a>, created by Steve Heffernan of Zencoder.</p>
+          <p>Some alternatives:</p>
           <ul>
             <li><a href="http://flowplayer.org/">Flowplayer</a></li>
             <li><a href="http://www.longtailvideo.com/jw-player/">JW Player</a></li>
@@ -82,35 +81,27 @@
 
           <h1 id="installation">Installation</h1>
             <ol>
-              <li>Copy third_party/zen_ee to your ExpressionEngine third_party directory</li>
+              <li>Copy <em>third_party/zen_ee</em> to your ExpressionEngine <em>third_party</em> directory</li>
               <li>Click the install link (<em>Add-ons  &rarr; Modules &rarr; Zen EE &rarr; Install </em>)</li>
-              <li>Install both the module and the fieldtype</li>
+              <li>Install both the module and fieldtype</li>
             </ol>
 
           <h1 id="configuration">Configuration</h1>
           <ol>
-            <li>Sign up for Zencoder: http://zencoder.com/
-                <ul>
-                    <li>Create an API key: API &larr; Full Access API Keys &larr; New Full Access Key</li>
-                </ul>
-            </li>
+            <li>Sign up for <a href="http://zencoder.com/" target="_blank">Zencoder</a>:
+            <li>Create an API key: <em>API &larr; Full Access API Keys &larr; New Full Access Key</em></li>
             <li>Copy your API key to the Zen EE API field on the Zen EE Settings screen</li>
             <li>Add the server path to your input videos. This can be any publicly viewable directory such as an ExpressionEngine upload directory</li>
             <li>Add the URL of your input videos directory
-                <ul>
-                    <li>Add the server path to your output videos. Supported protocols: FTP, SFTP, Rackspace Cloud Files, and Amazon S3. https://app.zencoder.com/docs/api/encoding/general-output-settings/url</li>
-                </ul>
-            </li>
+            <li>Add the server path to your output videos. Supported protocols: FTP, SFTP, Rackspace Cloud Files, and Amazon S3. <a href="https://app.zencoder.com/docs/api/encoding/general-output-settings/url">Output API reference</a></li>
             <li>Add the URL of your output videos</li>
-            <li>Test Mode: On = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. Off = production mode, you will incur charges.</li>
-            <li>* https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode</li>
+            <li>Test Mode: On = Zencoder jobs will be run in test mode. You will not incur charges. Videos will be shortened to 5 seconds and watermarked. Off = production mode, you will incur charges. <a href="https://app.zencoder.com/docs/guides/getting-started/test-jobs-and-integration-mode">Test Mode API reference</a></li>
           </ol>
 
           <h1 id="usage">Usage</h1>
-
-        <h4>Creating an encoding job</h4>
-        <ol>
-          <li>Upload videos to your input video folder
+          <h4>Creating an encoding job</h4>
+          <ol>
+            <li>Upload videos to your input video folder
             <ul>
               <li>You should be able to view these in the Videos tab of the Zen EE Module</li>
               <li>Click _Encode_ on the video you'd like to convert</li>
