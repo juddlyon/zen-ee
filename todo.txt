@@ -1,0 +1,9 @@
+-----------
+todos
+----------
+
+- catch create job exception
+- refactor input crawl (don't show non video files)
+- test overwriting
+- open up to additional formats
+
