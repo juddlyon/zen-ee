@@ -1,7 +1,9 @@
 ## Zen EE
-### A video encoding module and fieldtype for ExpressionEngine, powered by Zencoder.
+### A video encoding module and fieldtype for [ExpressionEngine](http://ellislab.com/expressionengine.com), powered by [Zencoder](http://zencoder.com).
 
 #### [Download &amp; Documentation](http://juddlyon.github.com/zen-ee/)
+
+<hr />
 
 ##### The MIT License (MIT)
 
