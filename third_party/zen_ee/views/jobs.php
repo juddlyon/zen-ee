@@ -29,8 +29,8 @@
         <td class="status <?= strtolower($job['status']) ?>"><i></i> <?= $job['status'] ?></td>
         <td><?= $job['zencoder_job_id'] ?></td>
         <td>
-        	<a href="#" class="view-details">View</a>
-					<div class="details" title="Video Details">
+        	<a href="#" class="view-details" data-modal='<?= $job['zencoder_job_output_id'] ?>'>View</a>
+					<div id="<?= $job['zencoder_job_output_id'] ?>" class="details" title="Video Details">
 					  <table class="mainTable zen_ee_table">
 					  	<tr>
 					  		<th colspan="3"><?= $job['video_name'] ?> (<?= $job['label'] ?>)</th>

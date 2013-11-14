@@ -1,15 +1,16 @@
 $(function() {
 
+  function fireModal(selector, width) {
+    $(selector).click(function() {
+      var modal_id = '#' + $(this).attr('data-modal');
+      $(modal_id).dialog({ width: width });      
+    });
+  }
+
   // modal forms
-  $('.trig').click(function() {
-    var modal_id = '#' + $(this).attr('data-modal');
-    $(modal_id).dialog();
-  });
-
-  $('.view-details').click(function() {
-    $(this).next('.details').dialog({width: 600});
-  });
-
+  fireModal('.trig');
+  fireModal('.view-details', 600);
+  
   // table styles
   $('.zen_ee_table tr:odd').addClass('odd');
 
