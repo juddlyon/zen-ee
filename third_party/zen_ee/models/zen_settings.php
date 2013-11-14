@@ -55,15 +55,21 @@ class Zen_settings {
 	*/
 	public function get_setting($setting_name)
 	{
-		$query = $this->EE->db->get_where('zen_ee_settings', array('name' => $setting_name));
+		// overrides? if not revert to db
+		if ($this->EE->config->item($setting_name)) {
+			return $this->EE->config->item($setting_name);
+		}  else 
+		{
+			$query = $this->EE->db->get_where('zen_ee_settings', array('name' => $setting_name));
 
-		if ($query->num_rows() > 0)
-		{
-			$setting_row = $query->row();
-			return $setting_row->value;
-		} else
-		{
-			return FALSE;
+			if ($query->num_rows() > 0)
+			{
+				$setting_row = $query->row();
+				return $setting_row->value;
+			} else
+			{
+				return FALSE;
+			}
 		}
 	}
 
