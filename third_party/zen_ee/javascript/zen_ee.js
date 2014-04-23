@@ -37,10 +37,10 @@ $(function() {
     $('.pagination').remove();
   }
 
-  // get value from alt_vid_url
-  var $alt_vid = $('#alt_vid_url').val();
-
-  // set alternate_video_url hidden field value to alt_vid_url value
-  $('input[name="alternate_video_url"]').val($alt_vid);
+  // get value from alt_vid_url & set alternate_video_url hidden field
+  $('a[data-modal="alternate_video_url"]').click(function() {
+    var alt_vid = $('#alt_vid_url').val();
+    $('input[name="alternate_video_url"]').val(alt_vid);
+  });
 
 });
