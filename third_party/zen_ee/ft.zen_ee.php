@@ -31,7 +31,7 @@ class Zen_ee_ft extends EE_Fieldtype {
 	*/
 	function __construct()
 	{
-		parent::EE_Fieldtype();
+		parent::__construct();		
 		$this->table = $this->EE->db->dbprefix . "zen_ee_jobs";
 	}
 
