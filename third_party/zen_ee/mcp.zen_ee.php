@@ -71,8 +71,7 @@ class Zen_ee_mcp {
 	public function jobs()
 	{
 		// page title
-		$this->EE->cp->set_variable('cp_page_title', $this->EE->lang->line('jobs'));
-
+		$this->EE->view->cp_page_title = $this->EE->lang->line('jobs');
 		// set breadcrumbs
 		$this->EE->cp->set_breadcrumb($this->base_url, $this->EE->lang->line('zen_ee_module_name'));
 
