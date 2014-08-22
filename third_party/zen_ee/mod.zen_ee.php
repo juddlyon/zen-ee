@@ -40,31 +40,33 @@ class Zen_ee {
 		$api_key = $this->EE->zen_settings->get_setting('zencoder_api');
 
 		// init new Zencoder object
-	  	$zencoder = new Services_Zencoder($api_key);
+	  $zencoder = new Services_Zencoder($api_key);
 
-	  	// catch notification
-	  	$notification = $zencoder->notifications->parseIncoming();
+	  // catch notification
+	  $notification = $zencoder->notifications->parseIncoming();
+
+		// get vid type
+		reset($notification->job->outputs);
+		$type = key($notification->job->outputs);
 
 		// handle notifications
-		switch ($notification->output->state) {
-		  	// finished output thumbnail
-	  		case 'finished':
-
-	  		// grab paths from notification
-		  	$outpath_vid = $notification->output->url;
-		  	$outpath_thumb = $notification->output->thumbnails[0]['images'][0]['url'];
+		switch ($notification->job->outputs[$type]->state) {
+	  	// finished output thumbnail
+  		case 'finished':
+				$outpath_vid = $notification->job->outputs[$type]->url;
+        $outpath_thumb = $notification->job->outputs[$type]->thumbnails[0]->images[0]->url;
 
 		  	// convert paths to URLs
 	  		$output_video_url = $this->path_to_url($outpath_vid);
 	  		$image_url = $this->path_to_url($outpath_thumb);
 
-			// write finished status
-			$this->update_job_with($notification->output->id, $output_video_url, $image_url, 'Finished');
-	  		break;
+				// write finished status
+				$this->update_job_with($notification->job->outputs[$type]->id, $output_video_url, $image_url, 'Finished');
+  			break;
 
-	  	default:
-			$this->update_job_status_with($notification->output->id, ucfirst($notification->output->state));
-	  		break;
+  		default:
+				$this->update_job_status_with($notification->job->outputs[$type]->id, ucfirst($notification->job->outputs[$type]->state));
+  			break;
 	  } // end switch
 	} // end  update_job_status
 

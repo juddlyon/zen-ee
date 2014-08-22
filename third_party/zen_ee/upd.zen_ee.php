@@ -155,7 +155,8 @@ class Zen_ee_upd {
 		// add action id
 		$data = array(
 		  'class' => ZEN_EE_CLASS_NAME,
-		  'method' => 'update_job_status'
+		  'method' => 'update_job_status',
+		  'csrf_exempt' => 1
 		);
 
 		$this->EE->db->insert('actions', $data);

@@ -5,7 +5,7 @@
  * @category Services
  * @package  Services_Zencoder
  * @author   Michael Christopher <m@zencoder.com>
- * @version  Release: 2.0.2
+ * @version  Release: 2.1.2
  * @license  http://creativecommons.org/licenses/MIT/MIT
  * @link     http://github.com/zencoder/zencoder-php
  */
@@ -42,17 +42,20 @@ class Services_Zencoder_Jobs extends Services_Zencoder_Base
    * @param array  $args    Array of filters to use when loading index
    * @param array  $params  Optional overrides
    *
-   * @return Services_Zencoder_Job The object representation of the resource
+   * @return array An array of Services_Zencoder_Job objects
    */
   public function index($args = array(), $params = array()) {
-    return new Services_Zencoder_Job($this->proxy->retrieveData("jobs.json", $args, $params));
+    $jobs = $this->proxy->retrieveData("jobs.json", $args, $params);
+    $results = array();
+    foreach($jobs as $job) $results[] = new Services_Zencoder_Job($job);
+    return $results;
   }
 
   /**
    * Return details of a specific job
    *
-   * @param integer $input_id  ID of the input file you want details for
-   * @param array   $params    Optional overrides
+   * @param integer $job_id   ID of the job you want details for
+   * @param array   $params   Optional overrides
    *
    * @return Services_Zencoder_Job The object representation of the resource
    */
@@ -63,8 +66,8 @@ class Services_Zencoder_Jobs extends Services_Zencoder_Base
   /**
    * Return progress of a specific job
    *
-   * @param integer $input_id  ID of the input file you want progress for
-   * @param array   $params    Optional overrides
+   * @param integer $job_id   ID of the job you want progress for
+   * @param array   $params   Optional overrides
    *
    * @return Services_Zencoder_Progress The object representation of the resource
    */

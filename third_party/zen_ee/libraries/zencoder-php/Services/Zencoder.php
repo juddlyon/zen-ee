@@ -5,13 +5,14 @@
  * @category Services
  * @package  Services_Zencoder
  * @author   Michael Christopher <m@zencoder.com>
- * @version  Release: 2.0.2
+ * @version  Release: 2.2.3
  * @license  http://creativecommons.org/licenses/MIT/MIT
  * @link     http://github.com/zencoder/zencoder-php
  * @access   private
  */
 
-function Services_Zencoder_autoload($className) {
+function Services_Zencoder_autoload($className)
+{
     if (substr($className, 0, 17) != 'Services_Zencoder') {return false;}
     $file = str_replace('_', '/', $className);
     $file = str_replace('Services/', '', $file);
@@ -25,14 +26,14 @@ spl_autoload_register('Services_Zencoder_autoload');
  * @category Services
  * @package  Services_Zencoder
  * @author   Michael Christopher <m@zencoder.com>
- * @version  Release: 2.0.2
+ * @version  Release: 2.2.3
  * @license  http://creativecommons.org/licenses/MIT/MIT
  * @link     http://github.com/zencoder/zencoder-php
  */
 
 class Services_Zencoder extends Services_Zencoder_Base
 {
-    const USER_AGENT = 'ZencoderPHP v2.0.2';
+    const USER_AGENT = 'ZencoderPHP v2.2.3';
 
     /**
     * Contains the HTTP communication class
@@ -95,12 +96,16 @@ class Services_Zencoder extends Services_Zencoder_Base
     * @param string               $api_version  API version
     * @param string               $api_host     API host
     * @param bool                 $debug        Enable debug mode
+    * @param string               $ca_path      Path to a directory that holds multiple CA certificates
+    * @param string               $ca_file      Path to a file holding one or more certificates to verify the peer with
     */
     public function __construct(
         $api_key = NULL,
         $api_version = 'v2',
         $api_host = 'https://app.zencoder.com',
-        $debug = false
+        $debug = false,
+        $ca_path = NULL,
+        $ca_file = NULL
     )
     {
         // Check that library dependencies are met
@@ -113,14 +118,18 @@ class Services_Zencoder extends Services_Zencoder_Base
         if (!function_exists('curl_init')) {
             throw new Services_Zencoder_Exception('cURL extension must be enabled.');
         }
+
         $this->version = $api_version;
-        $this->http = new Services_Zencoder_Http(
-            $api_host,
-            array("curlopts" => array(
-                CURLOPT_USERAGENT => self::USER_AGENT,
-                CURLOPT_CAINFO => dirname(__FILE__) . "/Zencoder/zencoder_ca_chain.crt",
-                ), "api_key" => $api_key, "debug" => $debug)
-            );
+
+        $http_options = array("api_key" => $api_key, "debug" => $debug, "curlopts" => array(CURLOPT_USERAGENT => self::USER_AGENT));
+        if (isset($ca_path)) {
+          $http_options["curlopts"][CURLOPT_CAPATH] = realpath($ca_path);
+        }
+        if (isset($ca_file)) {
+          $http_options["curlopts"][CURLOPT_CAINFO] = realpath($ca_file);
+        }
+
+        $this->http = new Services_Zencoder_Http($api_host, $http_options);
         $this->accounts = new Services_Zencoder_Accounts($this);
         $this->inputs = new Services_Zencoder_Inputs($this);
         $this->jobs = new Services_Zencoder_Jobs($this);
@@ -150,7 +159,6 @@ class Services_Zencoder extends Services_Zencoder_Base
     * DELETE the resource at the specified path.
     *
     * @param string $path   Path to the resource
-    * @param array  $params Query string parameters
     * @param array  $opts   Optional overrides
     *
     * @return object The object representation of the resource
@@ -164,7 +172,7 @@ class Services_Zencoder extends Services_Zencoder_Base
     * POST to the resource at the specified path.
     *
     * @param string $path   Path to the resource
-    * @param array  $params Query string parameters
+    * @param string $body   Raw body to post
     * @param array  $opts   Optional overrides
     *
     * @return object The object representation of the resource
@@ -187,7 +195,7 @@ class Services_Zencoder extends Services_Zencoder_Base
     * PUT to the resource at the specified path.
     *
     * @param string $path   Path to the resource
-    * @param array  $params Query string parameters
+    * @param string $body   Raw body to post
     * @param array  $opts   Optional overrides
     *
     * @return object The object representation of the resource

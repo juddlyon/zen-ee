@@ -125,7 +125,7 @@ class Zen_ee_mcp {
 		}
 
 		// page title
-	  	$this->EE->cp->set_variable('cp_page_title', $this->EE->lang->line('videos'));
+    $this->EE->view->cp_page_title = $this->EE->lang->line('videos');
 
 		// set breadcrumbs
 		$this->EE->cp->set_breadcrumb($this->base_url, $this->EE->lang->line('zen_ee_module_name'));
@@ -148,16 +148,16 @@ class Zen_ee_mcp {
 
 				if ($entry != "." && $entry != ".." && !is_dir($filepath))
 				{
-		        		$files[] = array(
-			          		'modal_class' => 'modal-'. $hidden_field_ref_number,
-						'filename' => $entry,
-						'filepath' => $filepath,
-						'form_submit' => form_submit(
-							array(
-								'value' => $this->EE->lang->line('encode_submit'),
-								'name' => $hidden_field_ref_number,
-								'class' => 'submit'
-							)
+		        $files[] = array(
+              'modal_class' => 'modal-'. $hidden_field_ref_number,
+						  'filename' => $entry,
+						  'filepath' => $filepath,
+						  'form_submit' => form_submit(
+                array(
+                	'value' => $this->EE->lang->line('encode_submit'),
+                	'name' => $hidden_field_ref_number,
+                	'class' => 'submit'
+                )
 						),
 						'form_hidden'	=> form_hidden("hidden_" . $hidden_field_ref_number, $url)
 					);
@@ -228,7 +228,7 @@ class Zen_ee_mcp {
 	public function settings()
 	{
 		// page title
-	  	$this->EE->cp->set_variable('cp_page_title', $this->EE->lang->line('settings'));
+	  $this->EE->view->cp_page_title = $this->EE->lang->line('settings');
 
 		// set breadcrumbs
 		$this->EE->cp->set_breadcrumb($this->base_url, $this->EE->lang->line('zen_ee_module_name'));
@@ -562,7 +562,7 @@ class Zen_ee_mcp {
 		// get update job status url from action id
 		$update_job_status_url = $this->EE->functions->fetch_site_index(0, 0) . QUERY_MARKER . 'ACT=' . $this->EE->cp->fetch_action_id('Zen_ee', 'update_job_status');
 
-	   	$zencoder = new Services_Zencoder($api_key);
+	 $zencoder = new Services_Zencoder($api_key);
 
 		// cheap filename sanitization
 		$filename = strtolower(preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $video_name));
