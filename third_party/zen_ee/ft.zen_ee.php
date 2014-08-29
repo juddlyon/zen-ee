@@ -90,7 +90,7 @@ class Zen_ee_ft extends EE_Fieldtype {
 	*/
 	public function replace_tag($data, $params = array(), $tagdata = TRUE)
 	{
-		$video_query = $this->db->get_where('zen_ee_jobs', array('zencoder_job_id' => $data));
+		$video_query = $this->EE->db->get_where('zen_ee_jobs', array('zencoder_job_id' => $data));
 
 		$vars = array();
 		$count = 0;
